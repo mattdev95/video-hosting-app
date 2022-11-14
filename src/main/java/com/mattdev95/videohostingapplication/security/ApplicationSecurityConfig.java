@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -65,16 +66,25 @@ public class ApplicationSecurityConfig {
 //                .clearAuthentication(true)
 //                .invalidateHttpSession(true).and(). authenticationManager(authenticationManager);
         http.csrf().disable()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and()
                 .authorizeRequests()
                 // want to permit all
                 // could allow only what the client can access
+                .antMatchers("/", "index", "/css/*", "/js/").permitAll()
                 .antMatchers("/api/v*/registration/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
+                .successHandler(myAuthenticationSuccessHandler())
+                .and()
+
+                .logout()
+                .logoutUrl("/logout")
+                // you should be using post for best practice - if you are using csrf delete the line below
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout").permitAll()
                 .and().authenticationManager(authenticationManager);
 
         return http.build();
@@ -87,7 +97,12 @@ public class ApplicationSecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-//
+    // ref: https://www.baeldung.com/spring-redirect-after-login
+    @Bean
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+        return new CustomAuthenticationSuccessHandler();
+    }
+
 
 
 }
