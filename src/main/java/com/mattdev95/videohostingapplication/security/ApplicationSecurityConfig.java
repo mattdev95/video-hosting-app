@@ -74,7 +74,8 @@ public class ApplicationSecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin().and().authenticationManager(authenticationManager);
+                .formLogin().loginPage("/login").permitAll()
+                .and().authenticationManager(authenticationManager);
 
         return http.build();
 
