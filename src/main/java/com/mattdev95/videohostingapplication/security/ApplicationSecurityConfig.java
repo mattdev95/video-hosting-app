@@ -66,7 +66,7 @@ public class ApplicationSecurityConfig {
 //                .clearAuthentication(true)
 //                .invalidateHttpSession(true).and(). authenticationManager(authenticationManager);
         http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
                 .authorizeRequests()
                 // want to permit all
                 // could allow only what the client can access

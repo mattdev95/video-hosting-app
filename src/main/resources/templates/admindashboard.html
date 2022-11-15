@@ -3,8 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!--    <script type="text/javascript" src="../js/app.js"></script>-->
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+    <script>
+        //Handler for the new asset submission button
+        $(document).ready(function () {
+            $("#newAssetForm").submit(function(){
+                console.log("Click")
+                //Execute the submit new asset function
+                submitVideo();
+
+            });
+        });
+
+
+
+        function submitVideo(){
+
+
+            let submitData = new FormData();
+//Get form variables and append them to the form data object
+            submitData.append('title', $('#Title').val());
+            submitData.append('publisher', $('#Publisher').val());
+            submitData.append('producer', $('#Producer').val());
+            submitData.append('genre', $('#Genre').val());
+            submitData.append('ageRating', $('#AgeRating').val());
+            submitData.append('videoFile', $("#VideoFile")[0].files[0]);
+//Post the form data to the endpoint, note the need to set the content type header
+            $.ajax({
+                url: "/videos",
+                data: submitData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                async: true,
+                type: 'POST',
+                success: function(data){
+                    alert(data)
+                }
+            });
+
+
+        }
+    </script>
 </head>
 <body>
 <h1>Admin dashboard</h1>
@@ -12,7 +55,51 @@
     <form class="ui-button" method="post" th:action="@{/logout}">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Logout</button>
     </form>
+    </div>
+
+<!--New Asset Box th:object="${video}"-->
+<div class="row align-items-start">
+    <div class="col-2"  ></div>
+
+    <div class="col-8" style="text-align: left;border-bottom:1px solid #222222;">
+        <p>Add Image</p>
+
+        <form style="font-size: 10pt;" id="newAssetForm" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="Title" class="form-label">Tile</label>
+                <input type="text" class="form-control" id="Title">
+            </div>
+            <div class="mb-3">
+                <label for="Publisher" class="form-label">Publisher</label>
+                <input type="text" class="form-control" id="Publisher">
+            </div>
+            <div class="mb-3">
+                <label for="Producer" class="form-label">Producer</label>
+                <input type="text" class="form-control" id="Producer">
+            </div>
+            <div class="mb-3">
+                <label for="Genre" class="form-label">Genre</label>
+                <input type="text" class="form-control" id="Genre">
+            </div>
+            <div class="mb-3">
+                <label for="AgeRating" class="form-label">Age Rating</label>
+                <input type="text" class="form-control" id="AgeRating">
+            </div>
+
+            <div class="mb-3">
+                <label for="VideoFile" class="form-label">Video To Upload</label>
+                <input type="file" class="form-control" id="VideoFile">
+            </div>
+
+            <button type="button" id="subNewForm" class="btn btn-primary" onclick="submitVideo()">Submit</button> <br/><br/>
+
+        </form>
+    </div>
+
+    <div class="col-2"  ></div>
 </div>
+
+
 
 </body>
 </html>
