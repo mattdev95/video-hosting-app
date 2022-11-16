@@ -15,17 +15,19 @@ import java.io.IOException;
 public class VideoBlobService {
 
     public String uploadVideo(MultipartFile multipartFile) throws IOException {
-        String constr = "AccountName=videostreamingservice;" +
-                "AccountKey=LS0losB4f73o4U6Xw47a3aQcAxUqf5eE40kOG/56VStVteneZxMmyfgsQxRW6CBwSujHSR3+VSgo+AStJ7R+tA==" +
-                "EndpointSuffix=blob.core.windows.net;" +
-                "DefaultEndpointProtocol=https;";
+//        String constr = "AccountName=videostreamingservice;" +
+//                "AccountKey=LS0losB4f73o4U6Xw47a3aQcAxUqf5eE40kOG/56VStVteneZxMmyfgsQxRW6CBwSujHSR3+VSgo+AStJ7R+tA==" +
+//                "EndpointSuffix=blob.core.windows.net;" +
+//                "DefaultEndpointProtocol=https;";
+        String ur = "https://videostreamingservice.blob.core.windows.net";
         BlobContainerClient containerClient = new BlobContainerClientBuilder()
-                .connectionString(constr)
+                .endpoint(ur)
+                .sasToken("?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2022-11-17T01:21:12Z&st=2022-11-16T17:21:12Z&spr=https&sig=oyBdJsky7KyX0vhY0x1gzNMYhlzDXrZfVBIMVVapM4U%3D")
                 .containerName("videos")
                 .buildClient();
         BlobClient blobClient = containerClient.getBlobClient(multipartFile.getOriginalFilename());
         blobClient.upload(multipartFile.getInputStream(), multipartFile.getSize(), true);
-        return "ok";
+        return blobClient.getBlobUrl();
     }
 //        URI uri = null;
 ////        String multipartName = multipartFile.getName().replaceAll("[\n|\r|\t]", "_");
