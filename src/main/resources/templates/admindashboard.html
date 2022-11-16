@@ -25,27 +25,61 @@
 
             let submitData = new FormData();
 //Get form variables and append them to the form data object
-            submitData.append('title', $('#Title').val());
-            submitData.append('publisher', $('#Publisher').val());
-            submitData.append('producer', $('#Producer').val());
-            submitData.append('genre', $('#Genre').val());
-            submitData.append('ageRating', $('#AgeRating').val());
-            submitData.append('videoFile', $("#VideoFile")[0].files[0]);
+//             submitData.append('title', $('#Title').val());
+//             submitData.append('publisher', $('#Publisher').val());
+//             submitData.append('producer', $('#Producer').val());
+//             submitData.append('genre', $('#Genre').val());
+//             submitData.append('ageRating', $('#AgeRating').val());
+//             submitData.append('videoFile', $("#VideoFile")[0].files[0]);
+            let title = $('#Title').val();
+            let publisher = $('#Publisher').val();
 //Post the form data to the endpoint, note the need to set the content type header
+            // THIS WORKS FOR JUST FORM DATA! You need to work out just to post file on its own and then form data
             $.ajax({
                 url: "/videos",
-                data: submitData,
+                data: JSON.stringify({ title:title, publisher: publisher}),
                 cache: false,
-                contentType: false,
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
                 processData: false,
-                async: true,
                 type: 'POST',
                 success: function(data){
                     alert(data)
                 }
             });
 
+            // $.ajax({
+            //     url: "/videos",
+            //     data: JSON.stringify({ title:title, publisher: publisher}),
+            //     cache: false,
+            //     dataType: "json",
+            //     contentType: "application/json; charset=utf-8",
+            //     processData: false,
+            //     type: 'POST',
+            //     success: function(data){
+            //         alert(data)
+            //     }
+            // });
 
+
+        }
+        function submitVideoFile() {
+            // let file = $("#VideoFile")[0];
+            let data = new FormData();
+            data.append('videoFile', $("#VideoFile")[0].files[0])
+
+            $.ajax({
+                url: "/videos/upload",
+                data: data,
+                cache: false,
+                enctype: "multipart/form-data",
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                success: function(data){
+                    alert(data)
+                }
+            });
         }
     </script>
 </head>
@@ -63,8 +97,19 @@
 
     <div class="col-8" style="text-align: left;border-bottom:1px solid #222222;">
         <p>Add Image</p>
+        <form style="font-size: 10pt;" id="newAsset">
 
-        <form style="font-size: 10pt;" id="newAssetForm" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="VideoFile" class="form-label">Video To Upload</label>
+                <input type="file" class="form-control" id="VideoFile">
+            </div>
+
+            <button type="button" id="newForm" class="btn btn-primary" onclick="submitVideoFile()">Submit</button> <br/><br/>
+
+        </form>
+
+
+        <form style="font-size: 10pt;" id="newAssetForm">
             <div class="mb-3">
                 <label for="Title" class="form-label">Tile</label>
                 <input type="text" class="form-control" id="Title">
@@ -86,10 +131,10 @@
                 <input type="text" class="form-control" id="AgeRating">
             </div>
 
-            <div class="mb-3">
-                <label for="VideoFile" class="form-label">Video To Upload</label>
-                <input type="file" class="form-control" id="VideoFile">
-            </div>
+<!--            <div class="mb-3">-->
+<!--                <label for="VideoFile" class="form-label">Video To Upload</label>-->
+<!--                <input type="file" class="form-control" id="VideoFile">-->
+<!--            </div>-->
 
             <button type="button" id="subNewForm" class="btn btn-primary" onclick="submitVideo()">Submit</button> <br/><br/>
 

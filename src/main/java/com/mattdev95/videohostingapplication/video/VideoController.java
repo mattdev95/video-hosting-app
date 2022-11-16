@@ -2,6 +2,7 @@ package com.mattdev95.videohostingapplication.video;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/videos")
@@ -12,8 +13,19 @@ public class VideoController {
 
      */
     @PostMapping
-    public void submitForm() {
-        System.out.println();
+    public void submitForm(@RequestBody VideoRequest pub) {
+        System.out.println(pub);
+    }
+    // https://mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/
+    // you need to upload a file
+
+    /**
+     * To add to the blob storage, we need then another field to be able to add the file name to
+     * @param file
+     */
+    @PostMapping("/upload")
+    public void submitVideo(@RequestParam("videoFile") MultipartFile file) {
+        System.out.println(file.getName());
     }
 
 
