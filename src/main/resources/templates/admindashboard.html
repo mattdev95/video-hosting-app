@@ -22,15 +22,6 @@
 
         function submitVideo(){
 
-
-            let submitData = new FormData();
-//Get form variables and append them to the form data object
-//             submitData.append('title', $('#Title').val());
-//             submitData.append('publisher', $('#Publisher').val());
-//             submitData.append('producer', $('#Producer').val());
-//             submitData.append('genre', $('#Genre').val());
-//             submitData.append('ageRating', $('#AgeRating').val());
-//             submitData.append('fileName', $("#FileName")[0].files[0]);
             let title = $('#Title').val();
             let publisher = $('#Publisher').val();
             let producer = $('#Producer').val();
@@ -57,18 +48,6 @@
                 }
             });
 
-            // $.ajax({
-            //     url: "/videos",
-            //     data: JSON.stringify({ title:title, publisher: publisher}),
-            //     cache: false,
-            //     dataType: "json",
-            //     contentType: "application/json; charset=utf-8",
-            //     processData: false,
-            //     type: 'POST',
-            //     success: function(data){
-            //         alert(data)
-            //     }
-            // });
 
 
         }

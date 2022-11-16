@@ -63,6 +63,12 @@
 			<artifactId>guava</artifactId>
 			<version>31.1-jre</version>
 		</dependency>
+		<dependency>
+			<groupId>com.azure.spring</groupId>
+			<artifactId>spring-cloud-azure-starter-data-cosmos</artifactId>
+			<version>4.4.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
