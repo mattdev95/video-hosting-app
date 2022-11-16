@@ -1,13 +1,22 @@
 package com.mattdev95.videohostingapplication.video;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+
 @Controller
 @RequestMapping("/videos")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class VideoController {
+
+    private final VideoBlobService videoBlobService;
     /*
     1 - need to create a controller to catch the /videos post
 
@@ -25,8 +34,12 @@ public class VideoController {
      * @param file
      */
     @PostMapping("/upload")
-    public void submitVideo(@RequestParam("videoFile") MultipartFile file) {
-        System.out.println(file.getName());
+    public ResponseEntity<String> submitVideo(@RequestParam("videoFile") MultipartFile file) throws MalformedURLException {
+        URI url = videoBlobService.uploadVideo(file);
+        String toUrl = url.toURL().toString();
+        return ResponseEntity.created(URI.create(toUrl)).body("Video submitted");
+
+
     }
 
 

@@ -68,6 +68,18 @@
 			<artifactId>spring-cloud-azure-starter-data-cosmos</artifactId>
 			<version>4.4.1</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.microsoft.azure</groupId>
+			<artifactId>azure-storage</artifactId>
+			<version>8.4.0</version>
+		</dependency>
+
+
 
 	</dependencies>
 
