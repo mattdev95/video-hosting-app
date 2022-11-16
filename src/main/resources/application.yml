@@ -23,4 +23,3 @@ spring:
           account-name: videostreamingservice
           account-key: LS0losB4f73o4U6Xw47a3aQcAxUqf5eE40kOG/56VStVteneZxMmyfgsQxRW6CBwSujHSR3+VSgo+AStJ7R+tA==
           endpoint: https://videostreamingservice.blob.core.windows.net
-          container-name: videos

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -34,10 +35,9 @@ public class VideoController {
      * @param file
      */
     @PostMapping("/upload")
-    public ResponseEntity<String> submitVideo(@RequestParam("videoFile") MultipartFile file) throws MalformedURLException {
-        URI url = videoBlobService.uploadVideo(file);
-        String toUrl = url.toURL().toString();
-        return ResponseEntity.created(URI.create(toUrl)).body("Video submitted");
+    public ResponseEntity<String> submitVideo(@RequestParam("videoFile") MultipartFile file) throws IOException {
+        String url = videoBlobService.uploadVideo(file);
+        return ResponseEntity.created(URI.create(url)).body("Video submitted");
 
 
     }
