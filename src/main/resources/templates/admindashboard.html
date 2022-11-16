@@ -30,14 +30,23 @@
 //             submitData.append('producer', $('#Producer').val());
 //             submitData.append('genre', $('#Genre').val());
 //             submitData.append('ageRating', $('#AgeRating').val());
-//             submitData.append('videoFile', $("#VideoFile")[0].files[0]);
+//             submitData.append('fileName', $("#FileName")[0].files[0]);
             let title = $('#Title').val();
             let publisher = $('#Publisher').val();
+            let producer = $('#Producer').val();
+            let genre = $('#Genre').val()
+            let ageRating = $('#AgeRating').val();
+            let fileName = $("#FileName").val();
 //Post the form data to the endpoint, note the need to set the content type header
             // THIS WORKS FOR JUST FORM DATA! You need to work out just to post file on its own and then form data
             $.ajax({
                 url: "/videos",
-                data: JSON.stringify({ title:title, publisher: publisher}),
+                data: JSON.stringify({ title:title,
+                    publisher: publisher,
+                    producer : producer,
+                    genre : genre,
+                    ageRating: ageRating,
+                    fileName:fileName}),
                 cache: false,
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
@@ -96,7 +105,7 @@
     <div class="col-2"  ></div>
 
     <div class="col-8" style="text-align: left;border-bottom:1px solid #222222;">
-        <p>Add Image</p>
+        <p>Add Video</p>
         <form style="font-size: 10pt;" id="newAsset">
 
             <div class="mb-3">
@@ -129,6 +138,11 @@
             <div class="mb-3">
                 <label for="AgeRating" class="form-label">Age Rating</label>
                 <input type="text" class="form-control" id="AgeRating">
+            </div>
+
+            <div class="mb-3">
+                <label for="FileName" class="form-label">File Name (same as uploaded file)</label>
+                <input type="text" class="form-control" id="FileName">
             </div>
 
 <!--            <div class="mb-3">-->

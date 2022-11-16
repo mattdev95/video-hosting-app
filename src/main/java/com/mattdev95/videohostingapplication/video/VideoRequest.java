@@ -12,4 +12,8 @@ import lombok.ToString;
 public class VideoRequest {
     private String title;
     private String publisher;
+    private String producer;
+    private String genre;
+    private String ageRating;
+    private String fileName;
 }
