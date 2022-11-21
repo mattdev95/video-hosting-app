@@ -21,23 +21,23 @@
 
 
         function submitVideo(){
-
+            let id = $('#Id').val();
             let title = $('#Title').val();
             let publisher = $('#Publisher').val();
             let producer = $('#Producer').val();
             let genre = $('#Genre').val()
             let ageRating = $('#AgeRating').val();
-            let fileName = $("#FileName").val();
 //Post the form data to the endpoint, note the need to set the content type header
             // THIS WORKS FOR JUST FORM DATA! You need to work out just to post file on its own and then form data
             $.ajax({
                 url: "/videos",
-                data: JSON.stringify({ title:title,
+                data: JSON.stringify({
+                    id:id,
+                    title:title,
                     publisher: publisher,
                     producer : producer,
                     genre : genre,
-                    ageRating: ageRating,
-                    fileName:fileName}),
+                    ageRating: ageRating}),
                 cache: false,
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
@@ -99,6 +99,10 @@
 
         <form style="font-size: 10pt;" id="newAssetForm">
             <div class="mb-3">
+                <label for="Id" class="form-label">ID</label>
+                <input type="text" class="form-control" id="Id">
+            </div>
+            <div class="mb-3">
                 <label for="Title" class="form-label">Tile</label>
                 <input type="text" class="form-control" id="Title">
             </div>
@@ -119,10 +123,7 @@
                 <input type="text" class="form-control" id="AgeRating">
             </div>
 
-            <div class="mb-3">
-                <label for="FileName" class="form-label">File Name (same as uploaded file)</label>
-                <input type="text" class="form-control" id="FileName">
-            </div>
+
 
 <!--            <div class="mb-3">-->
 <!--                <label for="VideoFile" class="form-label">Video To Upload</label>-->

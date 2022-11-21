@@ -23,3 +23,10 @@ spring:
           account-name: videostreamingservice
           account-key: LS0losB4f73o4U6Xw47a3aQcAxUqf5eE40kOG/56VStVteneZxMmyfgsQxRW6CBwSujHSR3+VSgo+AStJ7R+tA==
           endpoint: https://videostreamingservice.blob.core.windows.net
+      cosmos:
+        endpoint: https://clouddevproject.documents.azure.com:443/
+        key: WkOfmR00q6vRfZzM2J7l8YiClUeOcSePg7HcqjTDUEvjeexYp4VcXpBKBdknzouWNtDRwGAwCHBQACDbkfarXQ==
+        database: videostreaming
+        populate-query-metrics: true
+
+

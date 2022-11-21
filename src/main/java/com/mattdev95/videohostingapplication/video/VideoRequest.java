@@ -10,10 +10,10 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 public class VideoRequest {
+    private String id;
     private String title;
     private String publisher;
     private String producer;
     private String genre;
     private String ageRating;
-    private String fileName;
 }

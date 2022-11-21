@@ -1,6 +1,7 @@
 package com.mattdev95.videohostingapplication.video;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/videos")
@@ -18,13 +20,32 @@ import java.net.URL;
 public class VideoController {
 
     private final VideoBlobService videoBlobService;
+
+    private final VideoCosmosService videoCosmosService;
+
+    // this will need to be saved into teh cosmosdb
+    String url = null;
     /*
     1 - need to create a controller to catch the /videos post
 
      */
     @PostMapping
-    public void submitForm(@RequestBody VideoRequest pub) {
-        System.out.println(pub);
+    public void submitForm(@RequestBody VideoRequest video) {
+        if(url != null) {
+            Video newVideoData = new Video.VideoBuilder()
+                    .id(video.getId())
+                    .title(video.getTitle())
+                    .producer(video.getProducer())
+                    .publisher(video.getPublisher())
+                    .genre(video.getGenre())
+                    .fileName(url)
+                    .ageRating(video.getAgeRating())
+                    .dateOfUpload(LocalDateTime.now())
+                    .build();
+            videoCosmosService.saveVideoData(newVideoData);
+        }
+
+
     }
     // https://mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/
     // you need to upload a file
@@ -36,7 +57,7 @@ public class VideoController {
      */
     @PostMapping("/upload")
     public ResponseEntity<String> submitVideo(@RequestParam("videoFile") MultipartFile file) throws IOException {
-        String url = videoBlobService.uploadVideo(file);
+        url = videoBlobService.uploadVideo(file);
         return ResponseEntity.created(URI.create(url)).body("Video submitted");
 
 
