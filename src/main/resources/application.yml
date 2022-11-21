@@ -28,5 +28,8 @@ spring:
         key: WkOfmR00q6vRfZzM2J7l8YiClUeOcSePg7HcqjTDUEvjeexYp4VcXpBKBdknzouWNtDRwGAwCHBQACDbkfarXQ==
         database: videostreaming
         populate-query-metrics: true
-
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
 

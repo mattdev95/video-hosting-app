@@ -20,19 +20,16 @@ public class VideoCosmosService {
     protected void saveVideoData(Video videoData) {
         final Mono<Video> saveVideoMongo = videoDataRepository.save(videoData);
         final Flux<Video> titleOfVideoFlux = videoDataRepository.findVideoByTitle(videoData.getTitle());
-
-        //final Mono<Video> findByIdMono = videoDataRepository.findById(videoData.getId());
-//        final Video findByIdVideo = findByIdMono.block();
-
-
-
-        final Video savedVideo = saveVideoMongo.block();
+        final Mono<Video> findByIdMono = videoDataRepository.findById(videoData.getId());
+        findByIdMono.block();
+        saveVideoMongo.block();
         titleOfVideoFlux.collectList().block();
 
         final Mono<Video> userResult = videoDataRepository.findById(videoData.getId());
 
-
-        System.out.println(userResult);
+//
+//
+//        System.out.println(userResult);
 
     }
 }

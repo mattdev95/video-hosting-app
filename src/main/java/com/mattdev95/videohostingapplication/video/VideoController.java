@@ -24,13 +24,14 @@ public class VideoController {
     private final VideoCosmosService videoCosmosService;
 
     // this will need to be saved into teh cosmosdb
-    String url = null;
+//    String url = null;
+    String url = "random";
     /*
     1 - need to create a controller to catch the /videos post
 
      */
     @PostMapping
-    public void submitForm(@RequestBody VideoRequest video) {
+    public ResponseEntity<String> submitForm(@RequestBody VideoRequest video) {
         if(url != null) {
             Video newVideoData = new Video.VideoBuilder()
                     .id(video.getId())
@@ -43,9 +44,11 @@ public class VideoController {
                     .dateOfUpload(LocalDateTime.now())
                     .build();
             videoCosmosService.saveVideoData(newVideoData);
+            return ResponseEntity.created(URI.create("/videos")).body("Video data submitted");
         }
 
 
+        return ResponseEntity.badRequest().body("Video data not submitted");
     }
     // https://mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/
     // you need to upload a file
