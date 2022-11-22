@@ -44,7 +44,26 @@ public class VideoCosmosService {
     protected List<Video> getVideos() {
         Iterable<Video> videos = videoDataRepository.findAll();
         List<Video> videoToList = new ArrayList<>();
+        List<VideoResponse> videoResponses = new ArrayList<>();
         videos.forEach(videoToList::add);
+//        for(Video video : videoToList) {
+//
+//            VideoResponse videoBuild = new VideoResponse.VideoResponseBuilder()
+//                    .fileName(video.getFileName())
+//                    .ageRating(video.getAgeRating())
+//                    .dateOfUpload(video.getDateOfUpload())
+//                    .producer(video.getProducer())
+//                    .genre(video.getGenre())
+//                    .publisher(video.getPublisher())
+//                    .title(video.getTitle())
+//                    .build();
+//            videoResponses.add(videoBuild);
+//
+//        }
         return videoToList;
+    }
+
+    protected Video getVideo(String id) {
+        return videoDataRepository.findVideoById(id);
     }
 }

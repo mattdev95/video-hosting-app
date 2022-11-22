@@ -2,6 +2,7 @@ package com.mattdev95.videohostingapplication.video;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +16,8 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Controller
-@RequestMapping("/videos")
+@RestController
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,value = "/videos")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class VideoController {
@@ -58,6 +59,12 @@ public class VideoController {
     public List<Video> findAllVideos() {
         return videoCosmosService.getVideos();
     }
+
+    @GetMapping("/{id}")
+    public Video findVideo(@PathVariable String id) {
+        return videoCosmosService.getVideo(id);
+    }
+
     // https://mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/
     // you need to upload a file
 

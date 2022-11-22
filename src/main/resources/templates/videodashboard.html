@@ -8,59 +8,62 @@
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script>
-        let result;
+        // let result;
+        //
+        // $(document).ready(function(){
+        //     $.ajax({
+        //         url: "/videos",
+        //         type: 'GET',
+        //         dataType: 'json',
+        //         success: function(res) {
+        //             result = res;
+        //             console.log("The result is" + res);
+        //             getVideos();
+        //         }
+        //     });
+        // });
 
-        $(document).ready(function(){
-            $.ajax({
-                url: "/videos",
-                type: 'GET',
-                dataType: 'json',
-                success: function(res) {
-                    result = res;
-                    console.log("The result is" + res);
-                    alert(res);
-                }
-            });
-        });
+        // function getVideos() {
+            console.log("Videos are --------")
+            $(document).ready(function(){
+                $('#ImageList').html('<div class="spinner-border" role="status"><span class="sr-only"> &nbsp;</span>');
+                $.getJSON("/videos", function( data ) {
+                    //Create an array to hold all the retrieved assets
+                    let items = [];
+                    //Iterate through the returned records and build HTML, incorporating the key values of the record in the data
 
-        $(document).ready(function(){
-            $('#ImageList').html('<div class="spinner-border" role="status"><span class="sr-only"> &nbsp;</span>');
-            $.getJSON(result, function( data ) {
-                //Create an array to hold all the retrieved assets
-                let items = [];
-                //Iterate through the returned records and build HTML, incorporating the key values of the record in the data
-
-                /*
-                 "id": "fdasdffddefdsa",
-    "title": "dfas",
-    "publisher": "fdas",
-    "producer": "fdas",
-    "genre": "fda",
-    "ageRating": "dfasf",
-    "fileName": "https://videostreamingservice.blob.core.windows.net/videodata/WIN_20221121_22_10_01_Pro.mp4",
-    "comments": null,
-    "likes": null,
-    "dateOfUpload": "2022-11-22T11:10:25.822477800",
-                 */
-                $.each( data, function( key, val ) {
-                    items.push( "<hr />");
-                    items.push(" <video controls width='250'>" + "<source src=' " + val['filename'] + "'> " +
-                        "'<a href='" + val['fileName'] + "'>MP4</a>" + "</video> <br/>");
+                    /*
+                     "id": "fdasdffddefdsa",
+        "title": "dfas",
+        "publisher": "fdas",
+        "producer": "fdas",
+        "genre": "fda",
+        "ageRating": "dfasf",
+        "fileName": "https://videostreamingservice.blob.core.windows.net/videodata/WIN_20221121_22_10_01_Pro.mp4",
+        "comments": null,
+        "likes": null,
+        "dateOfUpload": "2022-11-22T11:10:25.822477800",
+                     */
+                    $.each( data, function( key, val ) {
+                        items.push( "<hr />");
+                        items.push(" <video controls width='250'>" + "<source src=' " + val['fileName'] + "'> " +
+                            "'<a href='" + val['fileName'] + "'>MP4</a>" + "</video> <br/>");
 
 
-                    items.push( "File : " + val["title"] + "<br />");
-                    items.push( "Uploaded by: " + val["publisher"] + "<br />");
-                    items.push( "<hr />");
+                        items.push( "File : " + val["title"] + "<br />");
+                        items.push( "Uploaded by: " + val["publisher"] + "<br />");
+                        items.push( "<hr />");
+                    });
+                    //Clear the assetlist div
+                    $('#ImageList').empty();
+                    //Append the contents of the items array to the ImageList Div
+                    $( "<ul/>", {
+                        "class": "my-new-list",
+                        html: items.join( "" )
+                    }).appendTo( "#ImageList" );
                 });
-                //Clear the assetlist div
-                $('#ImageList').empty();
-                //Append the contents of the items array to the ImageList Div
-                $( "<ul/>", {
-                    "class": "my-new-list",
-                    html: items.join( "" )
-                }).appendTo( "#ImageList" );
             });
-        });
+       // }
 
 
 
