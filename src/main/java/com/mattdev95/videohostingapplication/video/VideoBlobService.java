@@ -22,8 +22,8 @@ public class VideoBlobService {
         String ur = "https://videostreamingservice.blob.core.windows.net";
         BlobContainerClient containerClient = new BlobContainerClientBuilder()
                 .endpoint(ur)
-                .sasToken("sp=racwdli&st=2022-11-21T21:12:32Z&se=2023-03-16T05:12:32Z&sv=2021-06-08&sr=c&sig=7D0auNjcfETxpnmqz%2FI1fdXj233TAnqCBRVQjkVBndo%3D")
-                .containerName("videos")
+                .sasToken("sp=racwdl&st=2022-11-22T09:40:25Z&se=2023-02-23T17:40:25Z&sv=2021-06-08&sr=c&sig=KBav7%2FC7WvU6WaL34yj57JJ0C82Ap3lPjzLqY4Xi818%3D")
+                .containerName("videodata")
                 .buildClient();
         BlobClient blobClient = containerClient.getBlobClient(multipartFile.getOriginalFilename());
         blobClient.upload(multipartFile.getInputStream(), multipartFile.getSize(), true);

@@ -10,6 +10,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,11 +31,11 @@ public class Video {
     @PartitionKey
     private String fileName;
     @ElementCollection
-    private List<String> comments;
-    private Long likes;
-    private LocalDateTime dateOfUpload;
+    private List<String> comments = new ArrayList<>();
+    private Long likes = 0L;
+    private String dateOfUpload;
 
-    public Video(String id, String title, String publisher, String producer, String genre, String ageRating, String fileName, List<String> comments, Long likes, LocalDateTime dateOfUpload) {
+    public Video(String id, String title, String publisher, String producer, String genre, String ageRating, String fileName, List<String> comments, Long likes, String dateOfUpload) {
         this.id = id;
         this.title = title;
         this.publisher = publisher;
@@ -120,11 +121,11 @@ public class Video {
         this.likes = likes;
     }
 
-    public LocalDateTime getDateOfUpload() {
+    public String getDateOfUpload() {
         return dateOfUpload;
     }
 
-    public void setDateOfUpload(LocalDateTime dateOfUpload) {
+    public void setDateOfUpload(String dateOfUpload) {
         this.dateOfUpload = dateOfUpload;
     }
 

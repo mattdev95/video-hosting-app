@@ -21,7 +21,7 @@ spring:
       storage:
         blob:
           account-name: videostreamingservice
-          account-key: LS0losB4f73o4U6Xw47a3aQcAxUqf5eE40kOG/56VStVteneZxMmyfgsQxRW6CBwSujHSR3+VSgo+AStJ7R+tA==
+          account-key: sp=racwdli&st=2022-11-22T09:28:36Z&se=2023-02-28T17:28:36Z&sv=2021-06-08&sr=c&sig=%2B7a5ODIdFI9pjYpKrdMVY2S7Q9u9Jx2j8qWoAOe5cfo%3D
           endpoint: https://videostreamingservice.blob.core.windows.net
       cosmos:
         endpoint: https://clouddevproject.documents.azure.com:443/

@@ -25,7 +25,7 @@ public class VideoController {
 
     // this will need to be saved into teh cosmosdb
 //    String url = null;
-    String url = "random";
+    String url = "https://videostreamingservice.blob.core.windows.net/videodata/WIN_20221121_22_10_01_Pro.mp4";
     /*
     1 - need to create a controller to catch the /videos post
 
@@ -33,6 +33,7 @@ public class VideoController {
     @PostMapping
     public ResponseEntity<String> submitForm(@RequestBody VideoRequest video) {
         if(url != null) {
+            String dateToString = LocalDateTime.now().toString();
             Video newVideoData = new Video.VideoBuilder()
                     .id(video.getId())
                     .title(video.getTitle())
@@ -41,7 +42,7 @@ public class VideoController {
                     .genre(video.getGenre())
                     .fileName(url)
                     .ageRating(video.getAgeRating())
-                    .dateOfUpload(LocalDateTime.now())
+                    .dateOfUpload(dateToString)
                     .build();
             videoCosmosService.saveVideoData(newVideoData);
             return ResponseEntity.created(URI.create("/videos")).body("Video data submitted");
