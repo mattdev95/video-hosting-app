@@ -6,12 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Flux;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/videos")
@@ -51,6 +53,11 @@ public class VideoController {
 
         return ResponseEntity.badRequest().body("Video data not submitted");
     }
+    @GetMapping
+    public List<Video> findAllVideos() {
+        List<Video> videos = videoCosmosService.getVideos();
+        return videos;
+    }
     // https://mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/
     // you need to upload a file
 
@@ -66,6 +73,8 @@ public class VideoController {
 
 
     }
+
+
 
 
 }

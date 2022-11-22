@@ -69,6 +69,11 @@
 			<version>4.4.1</version>
 		</dependency>
 		<dependency>
+			<groupId>com.microsoft.azure</groupId>
+			<artifactId>spring-data-cosmosdb</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.4</version>

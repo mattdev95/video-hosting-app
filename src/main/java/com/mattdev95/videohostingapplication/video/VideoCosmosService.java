@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,14 +20,18 @@ public class VideoCosmosService {
     }
 
     protected void saveVideoData(Video videoData) {
-        final Mono<Video> saveVideoMongo = videoDataRepository.save(videoData);
-        final Flux<Video> titleOfVideoFlux = videoDataRepository.findVideoByTitle(videoData.getTitle());
-        final Mono<Video> findByIdMono = videoDataRepository.findById(videoData.getId());
-        findByIdMono.block();
-        saveVideoMongo.block();
-        titleOfVideoFlux.collectList().block();
+//        final Mono<Video> saveVideoMongo = videoDataRepository.save(videoData);
+//        final Flux<Video> titleOfVideoFlux = videoDataRepository.findVideoByTitle(videoData.getTitle());
+//        final Mono<Video> findByIdMono = videoDataRepository.findById(videoData.getId());
+//        findByIdMono.block();
+//        saveVideoMongo.block();
+//        titleOfVideoFlux.collectList().block();
+//
+//        final Mono<Video> userResult = videoDataRepository.findById(videoData.getId());
 
-        final Mono<Video> userResult = videoDataRepository.findById(videoData.getId());
+        videoDataRepository.save(videoData);
+        Video result = videoDataRepository.findVideoById(videoData.getId());
+        System.out.println(result);
 
 
 
@@ -33,5 +39,12 @@ public class VideoCosmosService {
 //
 //        System.out.println(userResult);
 
+    }
+
+    protected List<Video> getVideos() {
+        Iterable<Video> videos = videoDataRepository.findAll();
+        List<Video> videoToList = new ArrayList<>();
+        videos.forEach(videoToList::add);
+        return videoToList;
     }
 }

@@ -2,6 +2,7 @@ package com.mattdev95.videohostingapplication.video;
 
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
+import com.microsoft.azure.spring.data.cosmosdb.core.mapping.Document;
 import lombok.Builder;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,13 +15,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Container(containerName = "videostreaming")
+//@Container(containerName = "videostreaming")
+@Document(collection = "videos")
 @Builder
 public class Video {
 
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid")
-    @Column(columnDefinition = "CHAR(32)")
     @Id
     private String id;
     private String title;
