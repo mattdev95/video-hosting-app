@@ -26,7 +26,7 @@
         // function getVideos() {
             console.log("Videos are --------")
             $(document).ready(function(){
-                $('#ImageList').html('<div class="spinner-border" role="status"><span class="sr-only"> &nbsp;</span>');
+                // $('#VideoList').html('<div class="spinner-border" role="status"><span class="sr-only"> &nbsp;</span>');
                 $.getJSON("/videos", function( data ) {
                     //Create an array to hold all the retrieved assets
                     let items = [];
@@ -45,22 +45,22 @@
         "dateOfUpload": "2022-11-22T11:10:25.822477800",
                      */
                     $.each( data, function( key, val ) {
-                        items.push( "<hr />");
+                        items.push( "<hr/>");
+                        items.push( "Title: " + val["title"] + "- Age: " +  val['ageRating'] +  "<br/>");
                         items.push(" <video controls width='250'>" + "<source src=' " + val['fileName'] + "'> " +
                             "'<a href='" + val['fileName'] + "'>MP4</a>" + "</video> <br/>");
-
-
-                        items.push( "File : " + val["title"] + "<br />");
-                        items.push( "Uploaded by: " + val["publisher"] + "<br />");
-                        items.push( "<hr />");
+                        items.push( "Genre: " + val["genre"] + "<br/>");
+                        items.push( "Publisher: " + val["publisher"] + " Producer: " + val['producer'] + "<br/>");
+                        // items.push("Comments: " + "" + "<br/>")
+                        items.push( "<hr/>");
                     });
                     //Clear the assetlist div
-                    $('#ImageList').empty();
+                    $('#VideoList').empty();
                     //Append the contents of the items array to the ImageList Div
                     $( "<ul/>", {
                         "class": "my-new-list",
                         html: items.join( "" )
-                    }).appendTo( "#ImageList" );
+                    }).appendTo( "#VideoList" );
                 });
             });
        // }
@@ -77,7 +77,7 @@
 <body>
 <h1>Video dashboard</h1>
 
-    <div id="ImageList">
+    <div id="VideoList">
 <!--        <video controls width="250">-->
 
 
