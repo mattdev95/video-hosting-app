@@ -53,10 +53,10 @@ public class VideoController {
 
         return ResponseEntity.badRequest().body("Video data not submitted");
     }
+
     @GetMapping
     public List<Video> findAllVideos() {
-        List<Video> videos = videoCosmosService.getVideos();
-        return videos;
+        return videoCosmosService.getVideos();
     }
     // https://mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/
     // you need to upload a file
