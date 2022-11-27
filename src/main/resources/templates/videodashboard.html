@@ -51,6 +51,7 @@
                     $.each( data, function( key, val ) {
                         valueOfVideo = val;
                         items.push( "<hr/>");
+                        items.push("<div>")
                         items.push( "Title: " + val["title"] + "- Age: " +  val['ageRating'] +  "<br/>");
                         items.push(" <video controls width='250'>" + "<source src=' " + val['fileName'] + "'> " +
                             "'<a href='" + val['fileName'] + "'>MP4</a>" + "</video> <br/>");
@@ -58,7 +59,7 @@
                         items.push( "Publisher: " + val["publisher"] + " Producer: " + val['producer'] + "<br/>");
                         // add the like count to run a function to
 
-                        items.push("<button type='button' onclick='postLike()'/>" + "<p " + val['likes'] + "/>")
+                        items.push("<button type='button' onclick='postLike()'>Likes</button>"  + "Likes: " + val['likes']  + "<br/>")
                         // then add the comments, we need an input box to then use an onclick function
                         /*
                         <div class="mb-3">
@@ -75,8 +76,9 @@
 
             <button type="button" id="subNewForm" class="btn btn-primary" onclick="submitVideo()">Submit</button> <br/><br/>
                          */
-                        items.push("<input type='text' id='Comment'/>" + "<button type='button' onclick='postComment()' />")
-                        items.push("Comments: " + val['comments'])
+                        items.push("<input type='text' id='Comment'/>" + "<br/>" + "<button type='button' onclick='postComment()'>Post</button>" + "<br/>")
+                        items.push("Comments: " + val['comments'] + "<br/>")
+                        items.push("</div>")
 
                         // items.push("Comments: " + "" + "<br/>")
                         items.push( "<hr/>");
@@ -94,18 +96,21 @@
             function postLike() {
                 if(valueOfVideo != null) {
                     let countLikeValue = valueOfVideo['likes'];
+                    if(countLikeValue == null) {
+                        countLikeValue = 0;
+                    }
                     // covert to number
                     let videoLikeCountToNumber = parseInt(countLikeValue);
                     let newLikeValue = videoLikeCountToNumber + 1;
+                    let likeToText = newLikeValue.toString();
                     // now post the new like count
                     const completeUrl = "/" + valueOfVideo['id'] + "/likes";
                     $.ajax({
                         url: completeUrl,
-                        data: JSON.stringify({
-                            likes: newLikeValue}),
+                        data: likeToText,
                         cache: false,
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
+                        crossDomain: true,
+                        headers: {  'Access-Control-Allow-Origin': '*' },
                         processData: false,
                         type: 'POST',
                         success: function(data){
@@ -117,11 +122,15 @@
 
             function postComment() {
                 const completeUrl = "/" + valueOfVideo["id"] + "/comments"
-                if(comment != null) {
+                if(valueOfVideo != null) {
+                    let commentOfVideo = comment;
+                    if(commentOfVideo == null) {
+                        commentOfVideo = "No comment";
+                    }
                     $.ajax({
                         url: completeUrl,
                         data: JSON.stringify({
-                            comments: comment}),
+                            comments: commentOfVideo}),
                         cache: false,
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
