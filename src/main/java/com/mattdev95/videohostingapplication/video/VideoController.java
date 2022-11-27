@@ -14,7 +14,9 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,value = "/videos")
@@ -77,6 +79,29 @@ public class VideoController {
     public ResponseEntity<String> submitVideo(@RequestParam("videoFile") MultipartFile file) throws IOException {
         url = videoBlobService.uploadVideo(file);
         return ResponseEntity.created(URI.create(url)).body("Video submitted");
+
+
+    }
+
+    @PostMapping("/{id}/comments")
+    public ResponseEntity<String> submitComment(@RequestBody String comment, @PathVariable String id) {
+        List<String> comments = new ArrayList<>();
+        comments.add(comment);
+        Video video = videoCosmosService.getVideo(id);
+        video.setComments(comments);
+        videoCosmosService.saveVideoData(video);
+        return ResponseEntity.ok("The comment of the video with ID " + id + " has been updated.");
+
+
+    }
+
+    @PostMapping("/{id}/likes")
+    public ResponseEntity<String> submitLikeCount(@RequestBody String likes, @PathVariable String id) {
+        Long idToLong = Long.parseLong(likes);
+        Video video = videoCosmosService.getVideo(id);
+        video.setLikes(idToLong);
+        videoCosmosService.saveVideoData(video);
+        return ResponseEntity.ok("The likes of the video with ID " + id + " has been updated.");
 
 
     }

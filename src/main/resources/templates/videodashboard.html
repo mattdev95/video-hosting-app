@@ -8,6 +8,8 @@
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script>
+        let valueOfVideo = null;
+        let comment = null;
         // let result;
         //
         // $(document).ready(function(){
@@ -30,6 +32,8 @@
                 $.getJSON("/videos", function( data ) {
                     //Create an array to hold all the retrieved assets
                     let items = [];
+                    comment = $('#Comment').val();
+
                     //Iterate through the returned records and build HTML, incorporating the key values of the record in the data
 
                     /*
@@ -45,12 +49,35 @@
         "dateOfUpload": "2022-11-22T11:10:25.822477800",
                      */
                     $.each( data, function( key, val ) {
+                        valueOfVideo = val;
                         items.push( "<hr/>");
                         items.push( "Title: " + val["title"] + "- Age: " +  val['ageRating'] +  "<br/>");
                         items.push(" <video controls width='250'>" + "<source src=' " + val['fileName'] + "'> " +
                             "'<a href='" + val['fileName'] + "'>MP4</a>" + "</video> <br/>");
                         items.push( "Genre: " + val["genre"] + "<br/>");
                         items.push( "Publisher: " + val["publisher"] + " Producer: " + val['producer'] + "<br/>");
+                        // add the like count to run a function to
+
+                        items.push("<button type='button' onclick='postLike()'/>" + "<p " + val['likes'] + "/>")
+                        // then add the comments, we need an input box to then use an onclick function
+                        /*
+                        <div class="mb-3">
+                <label for="AgeRating" class="form-label">Age Rating</label>
+                <input type="text" class="form-control" id="AgeRating">
+            </div>
+
+
+
+<!--            <div class="mb-3">-->
+<!--                <label for="VideoFile" class="form-label">Video To Upload</label>-->
+<!--                <input type="file" class="form-control" id="VideoFile">-->
+<!--            </div>-->
+
+            <button type="button" id="subNewForm" class="btn btn-primary" onclick="submitVideo()">Submit</button> <br/><br/>
+                         */
+                        items.push("<input type='text' id='Comment'/>" + "<button type='button' onclick='postComment()' />")
+                        items.push("Comments: " + val['comments'])
+
                         // items.push("Comments: " + "" + "<br/>")
                         items.push( "<hr/>");
                     });
@@ -63,6 +90,49 @@
                     }).appendTo( "#VideoList" );
                 });
             });
+            // this function will update the like count in the database for the video
+            function postLike() {
+                if(valueOfVideo != null) {
+                    let countLikeValue = valueOfVideo['likes'];
+                    // covert to number
+                    let videoLikeCountToNumber = parseInt(countLikeValue);
+                    let newLikeValue = videoLikeCountToNumber + 1;
+                    // now post the new like count
+                    const completeUrl = "/" + valueOfVideo['id'] + "/likes";
+                    $.ajax({
+                        url: completeUrl,
+                        data: JSON.stringify({
+                            likes: newLikeValue}),
+                        cache: false,
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        processData: false,
+                        type: 'POST',
+                        success: function(data){
+                            alert(data)
+                        }
+                    });
+                }
+            }
+
+            function postComment() {
+                const completeUrl = "/" + valueOfVideo["id"] + "/comments"
+                if(comment != null) {
+                    $.ajax({
+                        url: completeUrl,
+                        data: JSON.stringify({
+                            comments: comment}),
+                        cache: false,
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        processData: false,
+                        type: 'POST',
+                        success: function(data){
+                            alert(data)
+                        }
+                    });
+                }
+            }
        // }
 
 
