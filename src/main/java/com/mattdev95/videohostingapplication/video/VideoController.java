@@ -84,9 +84,9 @@ public class VideoController {
     }
 
     @PostMapping("/{id}/comments")
-    public ResponseEntity<String> submitComment(@RequestBody String comment, @PathVariable String id) {
+    public ResponseEntity<String> submitComment(@RequestBody VideoReactionsRequest commentRequest, @PathVariable String id) {
         List<String> comments = new ArrayList<>();
-        comments.add(comment);
+        comments.add(commentRequest.getComment());
         Video video = videoCosmosService.getVideo(id);
         video.setComments(comments);
         videoCosmosService.saveVideoData(video);
@@ -94,12 +94,12 @@ public class VideoController {
 
 
     }
-
+    // {id}/likes
     @PostMapping("/{id}/likes")
-    public ResponseEntity<String> submitLikeCount(@RequestBody String likes, @PathVariable String id) {
-        Long idToLong = Long.parseLong(likes);
+    public ResponseEntity<String> submitLikeCount(@RequestBody VideoReactionsRequest likeRequest, @PathVariable String id) {
+        Long likes = Long.parseLong(likeRequest.getLike());
         Video video = videoCosmosService.getVideo(id);
-        video.setLikes(idToLong);
+        video.setLikes(likes);
         videoCosmosService.saveVideoData(video);
         return ResponseEntity.ok("The likes of the video with ID " + id + " has been updated.");
 
