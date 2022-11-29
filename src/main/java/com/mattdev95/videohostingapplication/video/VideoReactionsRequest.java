@@ -11,6 +11,7 @@ import lombok.ToString;
 @ToString
 public class VideoReactionsRequest {
 
+    private String title;
     private String comment;
     private String like;
 

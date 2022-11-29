@@ -9,22 +9,6 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script>
         let valueOfVideo = null;
-
-
-        // let result;
-        //
-        // $(document).ready(function(){
-        //     $.ajax({
-        //         url: "/videos",
-        //         type: 'GET',
-        //         dataType: 'json',
-        //         success: function(res) {
-        //             result = res;
-        //             console.log("The result is" + res);
-        //             getVideos();
-        //         }
-        //     });
-        // });
         function getVideos() {
             let title = $('#Search').val();
             $.ajax({
@@ -67,34 +51,20 @@
                         "class": "my-new-list",
                         html: items.join( "" )
                     }).appendTo( "#VideoList" )
+                },
+                error: function (error) {
+                    alert(error)
                 }
             });
         }
 
-        // function getVideos() {
-        //     console.log("Videos are --------")
+
             $(document).ready(function(){
-                // $('#VideoList').html('<div class="spinner-border" role="status"><span class="sr-only"> &nbsp;</span>');
+                $('#VideoList').html('<div class="spinner-border" role="status"><span class="sr-only"> &nbsp;</span>');
                 $.getJSON("/videos", function( data ) {
                     //Create an array to hold all the retrieved assets
                     let items = [];
 
-
-
-                    //Iterate through the returned records and build HTML, incorporating the key values of the record in the data
-
-                    /*
-                     "id": "fdasdffddefdsa",
-        "title": "dfas",
-        "publisher": "fdas",
-        "producer": "fdas",
-        "genre": "fda",
-        "ageRating": "dfasf",
-        "fileName": "https://videostreamingservice.blob.core.windows.net/videodata/WIN_20221121_22_10_01_Pro.mp4",
-        "comments": null,
-        "likes": null,
-        "dateOfUpload": "2022-11-22T11:10:25.822477800",
-                     */
                     $.each( data, function( key, val ) {
                         valueOfVideo = val;
                         items.push( "<hr/>");
@@ -108,12 +78,8 @@
 
                         items.push("<button type='button' onclick='postLike()'>Likes</button>"  + "Likes: " + val['likes']  + "<br/>")
 
-                        items.push("'<input type='text' id='Comments'/>" + "<br/>" + "<button type='button' onclick='postComment()'>Post</button>" + "<br/>")
-
-                        items.push("Comments: " + val['comments'] + "<br/>")
                         items.push("</div>")
 
-                        // items.push("Comments: " + "" + "<br/>")
                         items.push( "<hr/>");
                     });
 
@@ -142,6 +108,7 @@
                     $.ajax({
                         url: completeUrl,
                         data: JSON.stringify({
+                            title: "",
                             comment: "comment",
                             like: likeToText}),
                         cache: false,
@@ -152,35 +119,38 @@
                         processData: false,
                         type: 'POST',
                         success: function(data){
-                            alert(data)
+                            console.log("Like has been submitted")
+                        },
+                        error: function (error) {
+                            alert(error)
                         }
                     });
                 }
             }
 
+            // use this for the form
             function postComment() {
-                let comment = $('#Comments').val();
+                let comment = $('#Comment').val();
+                let title = $("#Title").val();
                 console.log("Comment is: " + comment)
-                const completeUrl = "/videos/" + valueOfVideo["id"] + "/comments"
-                if(valueOfVideo != null) {
-                    let commentOfVideo = comment;
-                    if(commentOfVideo == null) {
-                        commentOfVideo = "No comment";
-                    }
+                const completeUrl = "/videos/comments"
                     $.ajax({
                         url: completeUrl,
                         data: JSON.stringify({
-                            comment: commentOfVideo, like: ""}),
+                            title: title, comment: comment, like: ""}),
                         cache: false,
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         processData: false,
                         type: 'POST',
                         success: function(data){
-                            alert(data)
+                            alert("Comment has been added to: " + data.title)
+                        },
+                        error: function(error) {
+                            alert(error)
                         }
                     });
-                }
+
             }
 
     </script>
@@ -198,5 +168,26 @@
     <div id="VideoList">
 
     </div>
+
+<div>
+
+    <h2>Post Comment for Video - Type your video title and comment to show it on video</h2>
+    <div class="mb-3">
+        <label for="Title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="Title">
+    </div>
+    <div class="mb-3">
+        <label for="Comment" class="form-label">Comment</label>
+        <input type="text" class="form-control" id="Comment">
+    </div>
+    <div class="mb-3">
+        <label for="Likes" class="form-label">Comment</label>
+        <input type="text" class="form-control" id="Likes">
+    </div>
+    <br/>
+    <button type="button" id="postComment" class="btn btn-primary" onclick="postComment()">Post</button> <br/>
+</div>
+
+
 </body>
 </html>

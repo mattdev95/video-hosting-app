@@ -102,18 +102,25 @@ public class VideoController {
 
     }
 
-    @PostMapping("/{id}/comments")
-    public ResponseEntity<String> submitComment(@RequestBody VideoReactionsRequest commentRequest, @PathVariable String id) {
-        List<String> comments = new ArrayList<>();
-        comments.add(commentRequest.getComment());
-        Video video = videoCosmosService.getVideo(id);
-        video.setComments(comments);
+    /**
+     * To post a comment on a video. The path should be /{id}/comments - however this was not possible in this JQuery solution.
+     * @param commentRequest The request object
+     * @return a response
+     */
+    @PostMapping("/comments")
+    public ResponseEntity<String> submitComment(@RequestBody VideoReactionsRequest commentRequest) {
+//        List<String> comments = new ArrayList<>();
+//        comments.add(commentRequest.getComment());
+        Video video = videoCosmosService.getVideoByTitle(commentRequest.getTitle());
+        List<String> previousComments = video.getComments();
+        previousComments.add(commentRequest.getComment());
+        video.setComments(previousComments);
         videoCosmosService.saveVideoData(video);
-        return ResponseEntity.ok("The comment of the video with ID " + id + " has been updated.");
+        return ResponseEntity.ok("The comment of the video with ID " + video.getId() + " has been updated.");
 
 
     }
-    // {id}/likes
+
     @PostMapping("/{id}/likes")
     public ResponseEntity<String> submitLikeCount(@RequestBody VideoReactionsRequest likeRequest, @PathVariable String id) {
         Long likes = Long.parseLong(likeRequest.getLike());
