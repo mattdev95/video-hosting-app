@@ -43,10 +43,20 @@ public class VideoCosmosService {
     }
 
     protected List<Video> getVideos() {
+
+        List<Video> sortedVideos = new ArrayList<>();
         Iterable<Video> videos = videoDataRepository.findAll();
+//        for(Video oneVideo : videos) {
+//            videoResponses.add(oneVideo);
+//        }
+        // want to
+
         List<Video> videoToList = new ArrayList<>();
-        List<VideoResponse> videoResponses = new ArrayList<>();
         videos.forEach(videoToList::add);
+        for(int i = videoToList.size()-1; i >=0; i--) {
+            Video video = videoToList.get(i);
+            sortedVideos.add(video);
+        }
 //        for(Video video : videoToList) {
 //
 //            VideoResponse videoBuild = new VideoResponse.VideoResponseBuilder()
@@ -61,7 +71,8 @@ public class VideoCosmosService {
 //            videoResponses.add(videoBuild);
 //
 //        }
-        return videoToList;
+        return sortedVideos;
+
     }
 
     protected Video getVideo(String id) {

@@ -107,22 +107,7 @@
                         // add the like count to run a function to
 
                         items.push("<button type='button' onclick='postLike()'>Likes</button>"  + "Likes: " + val['likes']  + "<br/>")
-                        // then add the comments, we need an input box to then use an onclick function
-                        /*
-                        <div class="mb-3">
-                <label for="AgeRating" class="form-label">Age Rating</label>
-                <input type="text" class="form-control" id="AgeRating">
-            </div>
 
-
-
-<!--            <div class="mb-3">-->
-<!--                <label for="VideoFile" class="form-label">Video To Upload</label>-->
-<!--                <input type="file" class="form-control" id="VideoFile">-->
-<!--            </div>-->
-
-            <button type="button" id="subNewForm" class="btn btn-primary" onclick="submitVideo()">Submit</button> <br/><br/>
-                         */
                         items.push("'<input type='text' id='Comments'/>" + "<br/>" + "<button type='button' onclick='postComment()'>Post</button>" + "<br/>")
 
                         items.push("Comments: " + val['comments'] + "<br/>")
@@ -198,15 +183,6 @@
                 }
             }
 
-       // }
-
-
-
-
-        // function getImages(){
-        //     //Replace the current HTML in that div with a loading message
-        //
-        // }
     </script>
 </head>
 <body>
@@ -220,16 +196,6 @@
 <button type="button" id="subNewForm" class="btn btn-primary" onclick="getVideos()">Search</button> <br/>
 
     <div id="VideoList">
-<!--        <video controls width="250">-->
-
-
-<!--            <source src="https://videostreamingservice.blob.core.windows.net/videos/WIN_20221121_22_10_07_Pro.mp4">-->
-
-<!--            Download the-->
-
-<!--            <a href="https://videostreamingservice.blob.core.windows.net/videodata/WIN_20221121_22_10_07_Pro.mp4">MP4</a>-->
-<!--            video.-->
-<!--        </video>-->
 
     </div>
 </body>
