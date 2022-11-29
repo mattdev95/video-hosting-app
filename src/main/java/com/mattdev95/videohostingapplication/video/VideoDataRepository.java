@@ -14,4 +14,6 @@ public interface VideoDataRepository extends CosmosRepository<Video, String> {
 
     Video findVideoById(String id);
 
+    Video findVideoByTitle(String title);
+
 }

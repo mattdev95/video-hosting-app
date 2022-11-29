@@ -16,6 +16,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -57,9 +58,27 @@ public class VideoController {
         return ResponseEntity.badRequest().body("Video data not submitted");
     }
 
+//    @GetMapping
+//    public List<Video> findAllVideos() {
+//        return videoCosmosService.getVideos();
+//    }
+
     @GetMapping
-    public List<Video> findAllVideos() {
-        return videoCosmosService.getVideos();
+    public List<Video> findAllVideos(@RequestParam Optional<String> title) {
+        List<Video> listOfVideos = new ArrayList<>();
+        try {
+            if(title.isEmpty())  {
+                return videoCosmosService.getVideos();
+            }
+            String titleOfVideo = title.get();
+            Video findVideo = videoCosmosService.getVideoByTitle(titleOfVideo);
+            if(findVideo != null) {
+                listOfVideos.add(findVideo);
+            }
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("No Video exists");
+        }
+        return listOfVideos;
     }
 
     @GetMapping("/{id}")

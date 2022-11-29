@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -65,5 +66,14 @@ public class VideoCosmosService {
 
     protected Video getVideo(String id) {
         return videoDataRepository.findVideoById(id);
+    }
+
+    protected Video getVideoByTitle(String title) {
+        Optional<Video> video = Optional.ofNullable(videoDataRepository.findVideoByTitle(title));
+        if(video.isPresent()) {
+            return videoDataRepository.findVideoByTitle(title);
+        }
+        throw new NoSuchElementException("No Video exists");
+
     }
 }

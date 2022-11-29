@@ -9,7 +9,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script>
         let valueOfVideo = null;
-        let comment = null;
+
+
         // let result;
         //
         // $(document).ready(function(){
@@ -24,14 +25,60 @@
         //         }
         //     });
         // });
+        function getVideos() {
+            let title = $('#Search').val();
+            $.ajax({
+                url: "/videos",
+                data: {
+                    title:title,
+                } ,
+
+                dataType: "json",
+
+                type: 'GET',
+                success: function(data){
+                    let items = [];
+                    $.each( data, function( key, val ) {
+                        valueOfVideo = val;
+                        items.push( "<hr/>");
+                        items.push("<div>")
+                        items.push( "Title: " + val["title"] + "- Age: " +  val['ageRating'] +  "<br/>");
+                        items.push(" <video controls width='500'>" + "<source src=' " + val['fileName'] + "'> " +
+                            "'<a href='" + val['fileName'] + "'>MP4</a>" + "</video> <br/>");
+                        items.push( "Genre: " + val["genre"] + "<br/>");
+                        items.push( "Publisher: " + val["publisher"] + " Producer: " + val['producer'] + "<br/>");
+                        // add the like count to run a function to
+
+                        items.push("<button type='button' onclick='postLike()'>Likes</button>"  + "Likes: " + val['likes']  + "<br/>")
+
+                        items.push("'<input type='text' id='Comments'/>" + "<br/>" + "<button type='button' onclick='postComment()'>Post</button>" + "<br/>")
+
+                        items.push("Comments: " + val['comments'] + "<br/>")
+                        items.push("</div>")
+
+                        // items.push("Comments: " + "" + "<br/>")
+                        items.push( "<hr/>");
+                    });
+
+                    //Clear the assetlist div
+                    $('#VideoList').empty();
+                    //Append the contents of the items array to the ImageList Div
+                    $( "<ul/>", {
+                        "class": "my-new-list",
+                        html: items.join( "" )
+                    }).appendTo( "#VideoList" )
+                }
+            });
+        }
 
         // function getVideos() {
-            console.log("Videos are --------")
+        //     console.log("Videos are --------")
             $(document).ready(function(){
                 // $('#VideoList').html('<div class="spinner-border" role="status"><span class="sr-only"> &nbsp;</span>');
                 $.getJSON("/videos", function( data ) {
                     //Create an array to hold all the retrieved assets
                     let items = [];
+
 
 
                     //Iterate through the returned records and build HTML, incorporating the key values of the record in the data
@@ -76,15 +123,15 @@
 
             <button type="button" id="subNewForm" class="btn btn-primary" onclick="submitVideo()">Submit</button> <br/><br/>
                          */
-                        items.push("<input type='text' id='Comment'/>" + "<br/>" + "<button type='button' onclick='postComment()'>Post</button>" + "<br/>")
+                        items.push("'<input type='text' id='Comments'/>" + "<br/>" + "<button type='button' onclick='postComment()'>Post</button>" + "<br/>")
+
                         items.push("Comments: " + val['comments'] + "<br/>")
                         items.push("</div>")
 
                         // items.push("Comments: " + "" + "<br/>")
                         items.push( "<hr/>");
                     });
-                    comment = $('#Comment').val();
-                    console.log("Comment is: " + comment)
+
                     //Clear the assetlist div
                     $('#VideoList').empty();
                     //Append the contents of the items array to the ImageList Div
@@ -127,6 +174,8 @@
             }
 
             function postComment() {
+                let comment = $('#Comments').val();
+                console.log("Comment is: " + comment)
                 const completeUrl = "/videos/" + valueOfVideo["id"] + "/comments"
                 if(valueOfVideo != null) {
                     let commentOfVideo = comment;
@@ -148,6 +197,7 @@
                     });
                 }
             }
+
        // }
 
 
@@ -161,6 +211,13 @@
 </head>
 <body>
 <h1>Video dashboard</h1>
+<!-- Form to search for the video -->
+<div class="mb-3">
+    <label for="Search" class="form-label">Search By Title</label>
+    <input type="text" class="form-control" id="Search">
+</div>
+<br/>
+<button type="button" id="subNewForm" class="btn btn-primary" onclick="getVideos()">Search</button> <br/>
 
     <div id="VideoList">
 <!--        <video controls width="250">-->
