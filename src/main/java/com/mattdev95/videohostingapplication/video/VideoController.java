@@ -113,8 +113,14 @@ public class VideoController {
 //        comments.add(commentRequest.getComment());
         Video video = videoCosmosService.getVideoByTitle(commentRequest.getTitle());
         List<String> previousComments = video.getComments();
+        Long previousLikes = video.getLikes();
+        if(previousLikes == null) {
+            previousLikes = 0L;
+        }
+        Long newLikesValue = previousLikes + 1;
         previousComments.add(commentRequest.getComment());
         video.setComments(previousComments);
+        video.setLikes(newLikesValue);
         videoCosmosService.saveVideoData(video);
         return ResponseEntity.ok("The comment of the video with ID " + video.getId() + " has been updated.");
 

@@ -53,7 +53,7 @@
                     }).appendTo( "#VideoList" )
                 },
                 error: function (error) {
-                    alert(error)
+                    alert("No video with this title exists, try again")
                 }
             });
         }
@@ -75,6 +75,7 @@
                         items.push( "Genre: " + val["genre"] + "<br/>");
                         items.push( "Publisher: " + val["publisher"] + " Producer: " + val['producer'] + "<br/>");
                         // add the like count to run a function to
+                        items.push("Comments: " + val["comments"] + "<br/>")
 
                         items.push("<button type='button' onclick='postLike()'>Likes</button>"  + "Likes: " + val['likes']  + "<br/>")
 
@@ -132,18 +133,20 @@
             function postComment() {
                 let comment = $('#Comment').val();
                 let title = $("#Title").val();
+                let likes = $("#Likes").val();
                 console.log("Comment is: " + comment)
                 const completeUrl = "/videos/comments"
                     $.ajax({
                         url: completeUrl,
                         data: JSON.stringify({
-                            title: title, comment: comment, like: ""}),
+                            title: title, comment: comment, like: likes}),
                         cache: false,
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         processData: false,
                         type: 'POST',
                         success: function(data){
+                            console.log(data);
                             alert("Comment has been added to: " + data.title)
                         },
                         error: function(error) {
@@ -181,7 +184,7 @@
         <input type="text" class="form-control" id="Comment">
     </div>
     <div class="mb-3">
-        <label for="Likes" class="form-label">Comment</label>
+        <label for="Likes" class="form-label">Likes</label>
         <input type="text" class="form-control" id="Likes">
     </div>
     <br/>
