@@ -27,5 +27,10 @@ public class WebPageController {
         return "videodashboard";
     }
 
+    @GetMapping("error")
+    public String getError() {
+        return "error";
+    }
+
 
 }
