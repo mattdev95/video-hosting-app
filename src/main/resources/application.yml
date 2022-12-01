@@ -5,15 +5,15 @@ server:
 
 spring:
   datasource:
-    password: saxophone100
-    url: jdbc:postgresql://localhost:5432/registration
-    username: postgres
+    password: r$d7dBd8d%dkB6Gd8s4s
+    url: jdbc:sqlserver://videouserserver.database.windows.net:1433;database=VideoUsers;user=mattdevserver@videouserserver;password=r$d7dBd8d%dkB6Gd8s4s;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    username: mattdevserver@videouserserver
   jpa:
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.SQLServerDialect
         format_sql: true
     show-sql: true
   cloud:
