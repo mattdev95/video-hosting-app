@@ -160,6 +160,11 @@
 </head>
 <body>
 <h1>Video dashboard</h1>
+<div class="container">
+    <form class="ui-button" method="post" th:action="@{/logout}">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Logout</button>
+    </form>
+</div>
 <!-- Form to search for the video -->
 <div class="mb-3">
     <label for="Search" class="form-label">Search By Title</label>

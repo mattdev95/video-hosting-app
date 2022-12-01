@@ -16,7 +16,6 @@ public class RestEntryAuthenticationPoint implements AuthenticationEntryPoint {
             HttpServletRequest request,
             HttpServletResponse response,
             AuthenticationException authException) throws IOException {
-
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You do not have authorisation!");
     }
 }

@@ -40,8 +40,8 @@ public class ApplicationSecurityConfig {
                 // want to permit all
                 // could allow only what the client can access
                 .antMatchers("/", "index", "/css/*", "/js/").permitAll()
-                .antMatchers("/api/v*/registration/**")
-                .permitAll()
+                .antMatchers("/api/v*/registration/**").permitAll()
+                .antMatchers("/admin").hasAuthority("CREATOR")
                 .anyRequest()
                 .authenticated()
                 .and()

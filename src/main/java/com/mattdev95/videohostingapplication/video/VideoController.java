@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -95,6 +96,7 @@ public class VideoController {
      * @param file
      */
     @PostMapping("/upload")
+    @PreAuthorize("hasAuthority('CREATOR')")
     public ResponseEntity<String> submitVideo(@RequestParam("videoFile") MultipartFile file) throws IOException {
         url = videoBlobService.uploadVideo(file);
         return ResponseEntity.created(URI.create(url)).body("Video submitted");
