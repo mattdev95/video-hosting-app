@@ -14,7 +14,7 @@ RUN mvn package
 # Package stage
 #
 
-FROM checkstyle/jdk-11-groovy-git-mvn
+FROM khipu/openjdk11-alpine
 
 ARG JAR_NAME="video-hosting-application-0.0.1-SNAPSHOT"
 
