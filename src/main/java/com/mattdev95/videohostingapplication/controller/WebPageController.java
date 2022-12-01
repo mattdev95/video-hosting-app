@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @CrossOrigin(origins = "*")
 public class WebPageController {
 
-    @GetMapping("admindashboard")
+    @GetMapping("admin")
     public String getAdminDashboard() {
         return "admindashboard";
     }
@@ -20,7 +20,7 @@ public class WebPageController {
         return "login";
     }
 
-    @GetMapping("videodashboard")
+    @GetMapping("dashboard")
     public String getVideoDashboard() {
         return "videodashboard";
     }

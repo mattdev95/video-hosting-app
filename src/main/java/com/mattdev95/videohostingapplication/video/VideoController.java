@@ -108,9 +108,7 @@ public class VideoController {
      * @return a response
      */
     @PostMapping("/comments")
-    public ResponseEntity<String> submitComment(@RequestBody VideoReactionsRequest commentRequest) {
-//        List<String> comments = new ArrayList<>();
-//        comments.add(commentRequest.getComment());
+    public ResponseEntity<String> submitComment(@RequestBody VideoReactionsRequest commentRequest) {;
         Video video = videoCosmosService.getVideoByTitle(commentRequest.getTitle());
         List<String> previousComments = video.getComments();
         Long previousLikes = video.getLikes();

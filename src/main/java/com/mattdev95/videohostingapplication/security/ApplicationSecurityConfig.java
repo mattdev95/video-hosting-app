@@ -22,14 +22,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class ApplicationSecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
-//    private final RestEntryAuthenticationPoint restEntryAuthPoint;
     private final ApplicationUserService applicationUserService;
 
-//    @Autowired
-//    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, RestEntryAuthPoint restEntryAuthPoint) {
-//        this.passwordEncoder = passwordEncoder;
-//        this.restEntryAuthPoint = restEntryAuthPoint;
-//    }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -37,34 +32,8 @@ public class ApplicationSecurityConfig {
         authenticationManagerBuilder
                 .userDetailsService(applicationUserService)
                 .passwordEncoder(passwordEncoder);
-
         AuthenticationManager authenticationManager
                 = authenticationManagerBuilder.build();
-        // need to change the layout of this slightly
-//        http.csrf().disable()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-//                .authorizeHttpRequests()
-//                .antMatchers("/", "index", "/css/*", "/js/").permitAll()
-//                .antMatchers("/api/v*/registration/**")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated().and()
-//                .exceptionHandling()
-//                .authenticationEntryPoint(restEntryAuthPoint)
-//                .and()
-//                .formLogin()
-//                .loginPage("/login").permitAll()
-//
-//                .defaultSuccessUrl("/courses", true)
-//                .and()
-//
-//                .logout()
-//                .logoutUrl("/logout")
-//                // you should be using post for best practice - if you are using csrf delete the line below
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                .logoutSuccessUrl("/login?logout").permitAll()
-//                .clearAuthentication(true)
-//                .invalidateHttpSession(true).and(). authenticationManager(authenticationManager);
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
                 .authorizeRequests()
@@ -79,7 +48,6 @@ public class ApplicationSecurityConfig {
                 .formLogin().loginPage("/login").permitAll()
                 .successHandler(myAuthenticationSuccessHandler())
                 .and()
-
                 .logout()
                 .logoutUrl("/logout")
                 // you should be using post for best practice - if you are using csrf delete the line below

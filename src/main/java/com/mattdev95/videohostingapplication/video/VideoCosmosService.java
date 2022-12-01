@@ -21,56 +21,22 @@ public class VideoCosmosService {
     }
 
     protected void saveVideoData(Video videoData) {
-//        final Mono<Video> saveVideoMongo = videoDataRepository.save(videoData);
-//        final Flux<Video> titleOfVideoFlux = videoDataRepository.findVideoByTitle(videoData.getTitle());
-//        final Mono<Video> findByIdMono = videoDataRepository.findById(videoData.getId());
-//        findByIdMono.block();
-//        saveVideoMongo.block();
-//        titleOfVideoFlux.collectList().block();
-//
-//        final Mono<Video> userResult = videoDataRepository.findById(videoData.getId());
-
         videoDataRepository.save(videoData);
         Video result = videoDataRepository.findVideoById(videoData.getId());
         System.out.println(result);
 
-
-
-//
-//
-//        System.out.println(userResult);
-
     }
 
     protected List<Video> getVideos() {
-
         List<Video> sortedVideos = new ArrayList<>();
         Iterable<Video> videos = videoDataRepository.findAll();
-//        for(Video oneVideo : videos) {
-//            videoResponses.add(oneVideo);
-//        }
-        // want to
-
         List<Video> videoToList = new ArrayList<>();
         videos.forEach(videoToList::add);
         for(int i = videoToList.size()-1; i >=0; i--) {
             Video video = videoToList.get(i);
             sortedVideos.add(video);
         }
-//        for(Video video : videoToList) {
-//
-//            VideoResponse videoBuild = new VideoResponse.VideoResponseBuilder()
-//                    .fileName(video.getFileName())
-//                    .ageRating(video.getAgeRating())
-//                    .dateOfUpload(video.getDateOfUpload())
-//                    .producer(video.getProducer())
-//                    .genre(video.getGenre())
-//                    .publisher(video.getPublisher())
-//                    .title(video.getTitle())
-//                    .build();
-//            videoResponses.add(videoBuild);
-//
-//        }
+
         return sortedVideos;
 
     }

@@ -15,10 +15,7 @@ import java.io.IOException;
 public class VideoBlobService {
 
     public String uploadVideo(MultipartFile multipartFile) throws IOException {
-//        String constr = "AccountName=videostreamingservice;" +
-//                "AccountKey=LS0losB4f73o4U6Xw47a3aQcAxUqf5eE40kOG/56VStVteneZxMmyfgsQxRW6CBwSujHSR3+VSgo+AStJ7R+tA==" +
-//                "EndpointSuffix=blob.core.windows.net;" +
-//                "DefaultEndpointProtocol=https;";
+
         String ur = "https://videostreamingservice.blob.core.windows.net";
         BlobContainerClient containerClient = new BlobContainerClientBuilder()
                 .endpoint(ur)
@@ -29,20 +26,7 @@ public class VideoBlobService {
         blobClient.upload(multipartFile.getInputStream(), multipartFile.getSize(), true);
         return blobClient.getBlobUrl();
     }
-//        URI uri = null;
-////        String multipartName = multipartFile.getName().replaceAll("[\n|\r|\t]", "_");
-//       // String fileName = multipartFile.getOriginalFilename();
-//        Optional<String> fileName = Optional.ofNullable(multipartFile.getOriginalFilename());
-//
-//        try {
-//            CloudBlockBlob blob = cloudBlobContainer.getBlockBlobReference(String.valueOf(fileName));
-//            blob.upload(multipartFile.getInputStream(), -1);
-//            uri = blob.getUri();
-//        } catch (URISyntaxException | StorageException | IOException | StorageException e) {
-//            System.out.println("Something has gone wrong");
-//        }
-//        return Optional.ofNullable(uri).orElseThrow(NoSuchElementException::new);
-//    }
+
     }
 
 

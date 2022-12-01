@@ -23,84 +23,27 @@ import java.util.Map;
 
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     // ref: https://www.baeldung.com/spring-redirect-after-login
-    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     SimpleUrlAuthenticationSuccessHandler userSuccessHandler =
-            new SimpleUrlAuthenticationSuccessHandler("/videodashboard");
+            new SimpleUrlAuthenticationSuccessHandler("/dashboard");
     SimpleUrlAuthenticationSuccessHandler adminSuccessHandler =
-            new SimpleUrlAuthenticationSuccessHandler("/admindashboard");
-
+            new SimpleUrlAuthenticationSuccessHandler("/admin");
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+    public void onAuthenticationSuccess(HttpServletRequest request,
+                                        HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        for (final GrantedAuthority grantedAuthority : authorities) {
-            String authorityName = grantedAuthority.getAuthority();
-            if (authorityName.equals("CREATOR")) {
-                // if the user is an ADMIN delegate to the adminSuccessHandler
-                this.adminSuccessHandler.onAuthenticationSuccess(request, response, authentication);
-                return;
+        try {
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            for(GrantedAuthority grantedAuthority : authorities) {
+                String authorityNameRole = grantedAuthority.getAuthority();
+                if(authorityNameRole.equals("CREATOR")) {
+                    this.adminSuccessHandler.onAuthenticationSuccess(request, response, authentication);
+                } else {
+                    this.userSuccessHandler.onAuthenticationSuccess(request, response, authentication);
+                }
             }
+        } catch (Exception e) {
+            System.out.println("The program has died, please get help. Call 911");
         }
-        // if the user is not an admin delegate to the userSuccessHandler
-        this.userSuccessHandler.onAuthenticationSuccess(request, response, authentication);
     }
-
-//    @Override
-//    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-////        handleRequests(request, response, authentication);
-////        clearAuthenticationAttributes(request);
-//
-//        String redirectURL = request.getContextPath();
-//
-////        if (userDetails.getAuthorities().stream().filter(user -> user.equals(ApplicationUserRole.CONSUMER))) {
-////            redirectURL = "sales_home";
-////        } else if (userDetails.hasRole("Editor")) {
-////            redirectURL = "editor_home";
-////        } else if (userDetails.hasRole("Shipper")) {
-////            redirectURL = "shipper_home";
-////        }
-//        final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//        for (GrantedAuthority grantedAuthority : authorities) {
-//            String authorityName = grantedAuthority.getAuthority();
-//            if(authorityName.equals("CREATOR")) {
-//                redirectURL = "admindashboard";
-//            } else {
-//                redirectURL = "videodashboard";
-//            }
-//        }
-//
-//        response.sendRedirect(redirectURL);
-//    }
-
-//    protected void handleRequests(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-//        String targetUrl = determineTargetUrl(authentication);
-//        redirectStrategy.sendRedirect(request, response, targetUrl);
-//
-//    }
-//    protected String determineTargetUrl(final Authentication authentication) {
-//
-//        Map<String, String> roleTargetUrlMap = new HashMap<>();
-//        roleTargetUrlMap.put("CUSTOMER", "/videodashboard");
-//        roleTargetUrlMap.put("CREATOR", "/admindashboard");
-//        final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//        for (GrantedAuthority grantedAuthority : authorities) {
-//            String authorityName = grantedAuthority.getAuthority();
-//            if(roleTargetUrlMap.containsKey(authorityName)) {
-//                return roleTargetUrlMap.get(authorityName);
-//            }
-//        }
-//        throw new IllegalStateException();
-//    }
-//
-//    protected void clearAuthenticationAttributes(HttpServletRequest request) {
-//        HttpSession session = request.getSession(false);
-//        if (session == null) {
-//            return;
-//        }
-//        session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-//    }
-
-
-
 }
