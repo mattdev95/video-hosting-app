@@ -1,5 +1,6 @@
 package com.mattdev95.videohostingapplication.controller;
 
+import com.azure.core.annotation.Get;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,6 +31,11 @@ public class WebPageController {
     @GetMapping("error")
     public String getError() {
         return "error";
+    }
+
+    @GetMapping("registration")
+    public String getRegistrationForm() {
+        return "registration";
     }
 
 

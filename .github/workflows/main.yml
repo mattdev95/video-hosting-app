@@ -1,13 +1,10 @@
-name: Build a Docker image and Push it to ACR
-
+name: Create a Docker image to place it on Azure Container repo
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest

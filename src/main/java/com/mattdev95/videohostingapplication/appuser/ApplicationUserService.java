@@ -46,4 +46,70 @@ public class ApplicationUserService implements UserDetailsService {
         );
     }
 
+    public Boolean registerUser(AppUserRegistrationRequest appUserRegistrationRequest) {
+
+        try {
+            String password = appUserRegistrationRequest.getPassword();
+            ApplicationUser applicationUser = new ApplicationUser(
+                    appUserRegistrationRequest.getEmail(),
+                    password,
+                    ApplicationUserRole.CONSUMER
+            );
+            boolean userExists = applicationUserRepository.findByUserName(applicationUser.getUsername()).isPresent();
+            if(userExists) {
+                return false;
+            }
+            String encodePassword = bCryptPasswordEncoder.encode(password);
+            applicationUser.setPassword(encodePassword);
+            applicationUserRepository.save(applicationUser);
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
