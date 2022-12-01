@@ -40,7 +40,8 @@ public class ApplicationSecurityConfig {
                 // want to permit all
                 // could allow only what the client can access
                 .antMatchers("/", "index", "/css/*", "/js/").permitAll()
-                .antMatchers("/api/v*/registration/**").permitAll()
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/api/v1.0/register").permitAll()
                 .antMatchers("/admin").hasAuthority("CREATOR")
                 .anyRequest()
                 .authenticated()
@@ -48,6 +49,7 @@ public class ApplicationSecurityConfig {
                 .formLogin().loginPage("/login").permitAll()
                 .successHandler(myAuthenticationSuccessHandler())
                 .and()
+
                 .logout()
                 .logoutUrl("/logout")
                 // you should be using post for best practice - if you are using csrf delete the line below

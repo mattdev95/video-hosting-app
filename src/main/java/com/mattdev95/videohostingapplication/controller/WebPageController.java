@@ -33,6 +33,7 @@ public class WebPageController {
         return "error";
     }
 
+    // registration
     @GetMapping("registration")
     public String getRegistrationForm() {
         return "registration";

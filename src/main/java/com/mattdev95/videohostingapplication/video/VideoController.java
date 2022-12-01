@@ -31,12 +31,8 @@ public class VideoController {
     private final VideoCosmosService videoCosmosService;
 
     // this will need to be saved into teh cosmosdb
-//    String url = null;
-    String url = "https://videostreamingservice.blob.core.windows.net/videodata/WIN_20221121_22_10_01_Pro.mp4";
-    /*
-    1 - need to create a controller to catch the /videos post
+    String url = null;
 
-     */
     @PostMapping
     public ResponseEntity<String> submitForm(@RequestBody VideoRequest video) {
         if(url != null) {
@@ -112,14 +108,20 @@ public class VideoController {
     @PostMapping("/comments")
     public ResponseEntity<String> submitComment(@RequestBody VideoReactionsRequest commentRequest) {;
         Video video = videoCosmosService.getVideoByTitle(commentRequest.getTitle());
+        List<String> comments = new ArrayList<>();
         List<String> previousComments = video.getComments();
         Long previousLikes = video.getLikes();
         if(previousLikes == null) {
             previousLikes = 0L;
         }
         Long newLikesValue = previousLikes + 1;
-        previousComments.add(commentRequest.getComment());
-        video.setComments(previousComments);
+        if(previousComments != null) {
+            previousComments.add(commentRequest.getComment());
+            video.setComments(previousComments);
+        } else {
+            comments.add(commentRequest.getComment());
+            video.setComments(comments);
+        }
         video.setLikes(newLikesValue);
         videoCosmosService.saveVideoData(video);
         return ResponseEntity.ok("The comment of the video with ID " + video.getId() + " has been updated.");
