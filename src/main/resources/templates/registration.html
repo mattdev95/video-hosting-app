@@ -4,7 +4,43 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<script>
+    function submitUser() {
+        let username = $('#Username').val();
+        let password = $('#Password').val();
+
+        $.ajax({
+            url: "/api/v1.0/register",
+            data: JSON.stringify({
+                username: username,
+                password: password
+            }),
+            cache: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            processData: false,
+            type: 'POST',
+            success: function () {
+                alert("User has successfully been registered.")
+            }
+        });
+    }
+</script>
 <body>
+<form style="font-size: 10pt;" id="registrationForm">
+    <div class="mb-3">
+        <label for="Username" class="form-label">ID</label>
+        <input type="text" class="form-control" id="Username">
+    </div>
+    <div class="mb-3">
+        <label for="Password" class="form-label">Tile</label>
+        <input type="text" class="form-control" id="Password">
+    </div>
+
+
+    <button type="button" id="registerButton" class="btn btn-primary" onclick="submitUser()">Register</button> <br/><br/>
+
+</form>
 
 </body>
 </html>
