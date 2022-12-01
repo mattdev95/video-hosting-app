@@ -21,7 +21,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,value = "/videos")
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE,value = "/api/v1.0/videos")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class VideoController {

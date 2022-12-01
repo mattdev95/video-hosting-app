@@ -26,7 +26,7 @@
             let genre = $('#Genre').val()
             let ageRating = $('#AgeRating').val();
             $.ajax({
-                url: "/videos",
+                url: "/api/v1.0/videos",
                 data: JSON.stringify({
                     id:id,
                     title:title,
@@ -52,7 +52,7 @@
             data.append('videoFile', $("#VideoFile")[0].files[0])
 
             $.ajax({
-                url: "/videos/upload",
+                url: "/api/v1.0/videos/upload",
                 data: data,
                 cache: false,
                 enctype: "multipart/form-data",
@@ -97,7 +97,7 @@
                 <input type="text" class="form-control" id="Id">
             </div>
             <div class="mb-3">
-                <label for="Title" class="form-label">Tile</label>
+                <label for="Title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="Title">
             </div>
             <div class="mb-3">
