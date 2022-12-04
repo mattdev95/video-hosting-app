@@ -51,7 +51,6 @@ public class VideoController {
             return ResponseEntity.created(URI.create("/videos")).body("Video data submitted");
         }
 
-
         return ResponseEntity.badRequest().body("Video data not submitted");
     }
 
@@ -82,10 +81,6 @@ public class VideoController {
     public Video findVideo(@PathVariable String id) {
         return videoCosmosService.getVideo(id);
     }
-
-    // https://mkyong.com/spring-boot/spring-boot-file-upload-example-ajax-and-rest/
-    // you need to upload a file
-
     /**
      * // we need to first upload the video file and then send the video data to the cosmos db
      * To add to the blob storage, we need then another field to be able to add the file name to
@@ -94,8 +89,12 @@ public class VideoController {
     @PostMapping("/upload")
     @PreAuthorize("hasAuthority('CREATOR')")
     public ResponseEntity<String> submitVideo(@RequestParam("videoFile") MultipartFile file) throws IOException {
-        url = videoBlobService.uploadVideo(file);
-        return ResponseEntity.created(URI.create(url)).body("Video submitted");
+        if(file != null) {
+            url = videoBlobService.uploadVideo(file);
+            return ResponseEntity.created(URI.create(url)).body("Video submitted");
+        }
+        return ResponseEntity.badRequest().body("The video was unable to be submitted");
+
 
 
     }
@@ -106,37 +105,47 @@ public class VideoController {
      * @return a response
      */
     @PostMapping("/comments")
-    public ResponseEntity<String> submitComment(@RequestBody VideoReactionsRequest commentRequest) {;
-        Video video = videoCosmosService.getVideoByTitle(commentRequest.getTitle());
-        List<String> comments = new ArrayList<>();
-        List<String> previousComments = video.getComments();
-        Long previousLikes = video.getLikes();
-        if(previousLikes == null) {
-            previousLikes = 0L;
-        }
-        Long newLikesValue = previousLikes + 1;
-        if(previousComments != null) {
-            previousComments.add(commentRequest.getComment());
-            video.setComments(previousComments);
-        } else {
-            comments.add(commentRequest.getComment());
-            video.setComments(comments);
-        }
-        video.setLikes(newLikesValue);
-        videoCosmosService.saveVideoData(video);
-        return ResponseEntity.ok("The comment of the video with ID " + video.getId() + " has been updated.");
+    public ResponseEntity<String> submitComment(@RequestBody VideoReactionsRequest commentRequest) {
+        Video video;
+        if(commentRequest.getComment() != null || commentRequest.getLike() != null) {
+            try {
+                video = videoCosmosService.getVideoByTitle(commentRequest.getTitle());
+                List<String> comments = new ArrayList<>();
+                List<String> previousComments = video.getComments();
+                Long previousLikes = video.getLikes();
+                if(previousLikes == null) {
+                    previousLikes = 0L;
+                }
+                Long newLikesValue = previousLikes + 1;
+                if(previousComments != null) {
+                    previousComments.add(commentRequest.getComment());
+                    video.setComments(previousComments);
+                } else {
+                    comments.add(commentRequest.getComment());
+                    video.setComments(comments);
+                }
+                video.setLikes(newLikesValue);
+                videoCosmosService.saveVideoData(video);
+                return ResponseEntity.ok("The comment of the video with ID " + video.getId() + " has been updated.");
+            } catch (NoSuchElementException e) {
+                return ResponseEntity.notFound().build();
+            }
 
-
+        }
+        return ResponseEntity.badRequest().body("Something unexpectedly went wrong");
     }
 
     @PostMapping("/{id}/likes")
     public ResponseEntity<String> submitLikeCount(@RequestBody VideoReactionsRequest likeRequest, @PathVariable String id) {
-        Long likes = Long.parseLong(likeRequest.getLike());
-        Video video = videoCosmosService.getVideo(id);
-        video.setLikes(likes);
-        videoCosmosService.saveVideoData(video);
-        return ResponseEntity.ok("The likes of the video with ID " + id + " has been updated.");
 
+        if(likeRequest.getLike() != null) {
+            Long likes = Long.parseLong(likeRequest.getLike());
+            Video video = videoCosmosService.getVideo(id);
+            video.setLikes(likes);
+            videoCosmosService.saveVideoData(video);
+            return ResponseEntity.ok("The likes of the video with ID " + id + " has been updated.");
+        }
+        return ResponseEntity.notFound().build();
 
     }
 
