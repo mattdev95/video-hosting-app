@@ -123,7 +123,7 @@
                             console.log("Like has been submitted")
                         },
                         error: function (error) {
-                            alert(error)
+                            alert("The likes was unable to be submitted, try again.")
                         }
                     });
                 }
@@ -146,11 +146,11 @@
                         processData: false,
                         type: 'POST',
                         success: function(data){
-                            console.log(data);
+                            console.log("The comment has been added to the video.");
                             alert("Comment has been added to: " + data.title)
                         },
                         error: function(error) {
-                            alert(error)
+                            alert("The video for adding the comment and or likes does not exist.")
                         }
                     });
 

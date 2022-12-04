@@ -40,7 +40,9 @@
                 processData: false,
                 type: 'POST',
                 success: function(data){
-                    alert(data)
+                    alert("The video data has been submitted")
+                }, error: function () {
+                    alert("The video data was unable to be submitted")
                 }
             });
 
@@ -60,7 +62,10 @@
                 processData: false,
                 type: 'POST',
                 success: function(data){
-                    alert(data)
+                    alert("The video file has been submitted")
+                },
+                error: function () {
+                    alert("The video was unable to be submitted")
                 }
             });
         }

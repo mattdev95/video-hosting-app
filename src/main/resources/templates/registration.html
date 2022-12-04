@@ -26,6 +26,9 @@
             type: 'POST',
             success: function () {
                 alert("User has successfully been registered.")
+            },
+            error: function () {
+                alert("The user was unable to be registered, try again")
             }
         });
     }
