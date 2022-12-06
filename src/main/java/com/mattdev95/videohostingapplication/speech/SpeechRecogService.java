@@ -11,9 +11,9 @@ import java.util.concurrent.Future;
 public class SpeechRecogService {
 
     public String recogniseSpeech() throws ExecutionException, InterruptedException {
+        // Ref: https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/get-started-speech-to-text?tabs=windows%2Cterminal&pivots=programming-language-java
         SpeechConfig speechConfig = SpeechConfig.fromSubscription("5283e52de35e4d389f281f23a57248d6", "northeurope");
         speechConfig.setSpeechRecognitionLanguage("en-US");
-
         AudioConfig audioConfig = AudioConfig.fromDefaultMicrophoneInput();
         SpeechRecognizer speechRecognizer = new SpeechRecognizer(speechConfig, audioConfig);
 
@@ -25,7 +25,7 @@ public class SpeechRecogService {
            return speechRecognitionResult.getText();
         }
         else if (speechRecognitionResult.getReason() == ResultReason.NoMatch) {
-            System.out.println("NOMATCH: Speech could not be recognized.");
+            System.out.println("Speech could not be recognised");
         }
         else if (speechRecognitionResult.getReason() == ResultReason.Canceled) {
             CancellationDetails cancellation = CancellationDetails.fromResult(speechRecognitionResult);
