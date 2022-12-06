@@ -26,15 +26,18 @@
             type: 'POST',
             success: function () {
                 alert("User has successfully been registered.")
-            },
-            error: function () {
-                alert("The user was unable to be registered, try again")
             }
         });
     }
 </script>
 <body>
 <div class="container">
+    <form class="ui-button" method="post" th:action="@{/login}">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    </form>
+</div>
+<div class="container">
+
     <form style="font-size: 10pt;" id="registrationForm">
         <div class="mb-3">
             <label for="Username" class="form-label">Username</label>

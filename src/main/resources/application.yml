@@ -6,11 +6,11 @@ server:
 spring:
   datasource:
     password: r$d7dBd8d%dkB6Gd8s4s
-    url: jdbc:sqlserver://videostreamingserver.database.windows.net:1433;database=VideoUsers;user=matt95videostream@videostreamingserver;password=r$d7dBd8d%dkB6Gd8s4s;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
-    username: matt95videostream@videostreamingserver
+    url: jdbc:sqlserver://streamingservervideo.database.windows.net:1433;database=VideoUsers;user=matt95@streamingservervideo;password=r$d7dBd8d%dkB6Gd8s4s;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    username: matt95@streamingservervideo
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect

@@ -1,9 +1,9 @@
 name: Create a Docker image to place it on Azure Container repo
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
   workflow_dispatch:
 jobs:
   build:
@@ -12,9 +12,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: azure/docker-login@v1
         with:
-          login-server: videostreamingcontainer.azurecr.io
-          username: videostreamingcontainer
-          password: sINi8//Qg2so3LkV6esYYYbqjTs9kXsl
+          login-server: streamingcontainer.azurecr.io
+          username: streamingcontainer
+          password: vZ8H8el2BveV1ByFm54048uHy+Vko+UmOInEl3Wb5Y+ACRC6L0Ky
       - run: |
-          docker build . -t videostreamingcontainer.azurecr.io/mattdev95:${{ github.sha }}
-          docker push videostreamingcontainer.azurecr.io/mattdev95:${{ github.sha }}
+          docker build . -t streamingcontainer.azurecr.io/mattdev95:${{ github.sha }}
+          docker push streamingcontainer.azurecr.io/mattdev95:${{ github.sha }}

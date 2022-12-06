@@ -39,10 +39,8 @@
                 contentType: "application/json; charset=utf-8",
                 processData: false,
                 type: 'POST',
-                success: function(data){
+                success: function(){
                     alert("The video data has been submitted")
-                }, error: function () {
-                    alert("The video data was unable to be submitted")
                 }
             });
 
@@ -61,11 +59,8 @@
                 contentType: false,
                 processData: false,
                 type: 'POST',
-                success: function(data){
+                success: function(){
                     alert("The video file has been submitted")
-                },
-                error: function () {
-                    alert("The video was unable to be submitted")
                 }
             });
         }
