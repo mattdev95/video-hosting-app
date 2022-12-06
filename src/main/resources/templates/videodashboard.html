@@ -156,6 +156,23 @@
 
             }
 
+
+        function getSpeech() {
+            document.getElementById("AlertText").innerHTML = "Please speak now";
+            $.ajax({
+                url: "/api/v1.0/speech",
+                dataType: "text",
+                data: "",
+                type: 'GET',
+                success: function(data){
+                   console.log("Success")
+                   document.getElementById("Search").value = data;
+                    document.getElementById("AlertText").innerHTML = "";
+                }
+            });
+
+        }
+
     </script>
 </head>
 <body>
@@ -170,6 +187,8 @@
     <div class="mb-3">
         <label for="Search" class="form-label">Search By Title</label>
         <input type="text" class="form-control" id="Search">
+        <button type="button" id="speechtotext" class="btn btn-primary" onclick="getSpeech()">Speech to text</button> <br/>
+        <p id="AlertText"></p>
     </div>
 </div>
 
