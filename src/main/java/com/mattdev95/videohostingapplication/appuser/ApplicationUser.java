@@ -42,7 +42,6 @@ public class ApplicationUser implements UserDetails {
         this.applicationUser = applicationUser;
     }
 
-    // convert the role to a string
     @Enumerated(EnumType.STRING)
     private ApplicationUserRole applicationUser;
 
