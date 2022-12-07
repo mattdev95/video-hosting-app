@@ -26,6 +26,7 @@ public class SpeechRecogService {
         }
         else if (speechRecognitionResult.getReason() == ResultReason.NoMatch) {
             System.out.println("Speech could not be recognised");
+            return "Could not make out what you said";
         }
         else if (speechRecognitionResult.getReason() == ResultReason.Canceled) {
             CancellationDetails cancellation = CancellationDetails.fromResult(speechRecognitionResult);
