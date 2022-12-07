@@ -18,7 +18,7 @@ import java.util.Collections;
 @Setter
 @Getter
 public class ApplicationUser implements UserDetails {
-
+    //some changed
     @Id
     @SequenceGenerator(
             name = "user_sequence",
