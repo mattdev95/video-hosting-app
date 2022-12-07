@@ -12,9 +12,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: azure/docker-login@v1
         with:
-          login-server: containervideostuff.azurecr.io
-          username: containervideostuff
-          password: irdx22FzFcU3TgD8D22Cv5mjgFiYlNlDtB+5irrNp++ACRDmzeat
+          login-server: containerstuff.azurecr.io
+          username: containerstuff
+          password: BzvAjWq4zqwhl3Vi9ADD5dzEqwcvdaGCTQf80bPyRp+ACRB6nOtS
       - run: |
-          docker build . -t containervideostuff.azurecr.io/deployments:${{ github.sha }}
-          docker push containervideostuff.azurecr.io/deployments:${{ github.sha }}
+          docker build . -t containerstuff.azurecr.io/deployments:${{ github.sha }}
+          docker push containerstuff.azurecr.io/deployments:${{ github.sha }}
