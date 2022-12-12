@@ -50,7 +50,6 @@ public class VideoController {
             videoCosmosService.saveVideoData(newVideoData);
             return ResponseEntity.created(URI.create("/videos")).body("Video data submitted");
         }
-
         return ResponseEntity.badRequest().body("Video data not submitted");
     }
 
@@ -86,6 +85,7 @@ public class VideoController {
      * To add to the blob storage, we need then another field to be able to add the file name to
      * @param file
      */
+
     @PostMapping("/upload")
     @PreAuthorize("hasAuthority('CREATOR')")
     public ResponseEntity<String> submitVideo(@RequestParam("videoFile") MultipartFile file) throws IOException {
@@ -95,8 +95,6 @@ public class VideoController {
         }
         return ResponseEntity.badRequest().body("The video was unable to be submitted");
 
-
-
     }
 
     /**
@@ -104,7 +102,7 @@ public class VideoController {
      * @param commentRequest The request object
      * @return a response
      */
-    @PostMapping("/comments")
+    @PutMapping("/comments")
     public ResponseEntity<String> submitComment(@RequestBody VideoReactionsRequest commentRequest) {
         Video video;
         if(commentRequest.getComment() != null || commentRequest.getLike() != null) {
@@ -126,7 +124,7 @@ public class VideoController {
                 }
                 video.setLikes(newLikesValue);
                 videoCosmosService.saveVideoData(video);
-                return ResponseEntity.ok("The comment of the video with ID " + video.getId() + " has been updated.");
+                return ResponseEntity.created(URI.create("")).body("The comment of the video with ID " + video.getId() + " has been updated.");
             } catch (NoSuchElementException e) {
                 return ResponseEntity.notFound().build();
             }

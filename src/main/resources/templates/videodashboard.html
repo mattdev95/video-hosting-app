@@ -9,63 +9,66 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <script>
         let valueOfVideo = null;
-        function getVideos() {
+
+        async function getVideos() {
             let title = $('#Search').val();
-            $.ajax({
-                url: "/api/v1.0/videos",
-                data: {
-                    title:title,
-                } ,
+            let videos;
+            try {
+                videos = await $.ajax({
+                    url: "/api/v1.0/videos",
+                    data: {title:title},
+                    type: 'GET',
+                    dataType: "json"
+                });
 
-                dataType: "json",
+                //Create an array to hold all the retrieved assets
+                let items = [];
+                $.each( videos, function( key, val ) {
+                    valueOfVideo = val;
+                    items.push( "<hr/>");
+                    items.push("<div>")
+                    items.push( "Title: " + val["title"] + "- Age: " +  val['ageRating'] +  "<br/>");
+                    items.push(" <video controls width='500'>" + "<source src=' " + val['fileName'] + "'> " +
+                        "'<a href='" + val['fileName'] + "'>MP4</a>" + "</video> <br/>");
+                    items.push( "Genre: " + val["genre"] + "<br/>");
+                    items.push( "Publisher: " + val["publisher"] + " Producer: " + val['producer'] + "<br/>");
+                    // add the like count to run a function to
+                    items.push("Comments: " + val["comments"] + "<br/>")
 
-                type: 'GET',
-                success: function(data){
-                    let items = [];
-                    $.each( data, function( key, val ) {
-                        valueOfVideo = val;
-                        items.push( "<hr/>");
-                        items.push("<div>")
-                        items.push( "Title: " + val["title"] + "- Age: " +  val['ageRating'] +  "<br/>");
-                        items.push(" <video controls width='500'>" + "<source src=' " + val['fileName'] + "'> " +
-                            "'<a href='" + val['fileName'] + "'>MP4</a>" + "</video> <br/>");
-                        items.push( "Genre: " + val["genre"] + "<br/>");
-                        items.push( "Publisher: " + val["publisher"] + " Producer: " + val['producer'] + "<br/>");
-                        // add the like count to run a function to
+                    items.push("<button type='button' onclick='postLike()'>Like</button>"  + "Likes: " + val['likes']  + "<br/>")
 
-                        items.push("<button type='button' onclick='postLike()'>Likes</button>"  + "Likes: " + val['likes']  + "<br/>")
+                    items.push("</div>")
 
-                        items.push("'<input type='text' id='Comments'/>" + "<br/>" + "<button type='button' onclick='postComment()'>Post</button>" + "<br/>")
+                    items.push( "<hr/>");
+                });
 
-                        items.push("Comments: " + val['comments'] + "<br/>")
-                        items.push("</div>")
-
-                        // items.push("Comments: " + "" + "<br/>")
-                        items.push( "<hr/>");
-                    });
-
-                    //Clear the assetlist div
-                    $('#VideoList').empty();
-                    //Append the contents of the items array to the ImageList Div
-                    $( "<ul/>", {
-                        "class": "my-new-list",
-                        html: items.join( "" )
-                    }).appendTo( "#VideoList" )
-                },
-                error: function (error) {
-                    alert("No video with this title exists, try again")
-                }
-            });
+                //Clear the assetlist div
+                $('#VideoList').empty();
+                //Append the contents of the items array to the ImageList Div
+                $( "<ul/>", {
+                    "class": "my-new-list",
+                    html: items.join( "" )
+                }).appendTo( "#VideoList" );
+            } catch (error) {
+                alert("No videos exist in the database, please try again later.")
+            }
         }
 
+        $(document).ready(function(){
+            getAllVideos();
+            async function getAllVideos() {
+                let videos;
+                try {
+                    videos = await $.ajax({
+                        url: "/api/v1.0/videos",
+                        data: "",
+                        type: 'GET',
+                        dataType: "json"
+                    });
 
-            $(document).ready(function(){
-                $('#VideoList').html('<div class="spinner-border" role="status"><span class="sr-only"> &nbsp;</span>');
-                $.getJSON("/api/v1.0/videos", function( data ) {
                     //Create an array to hold all the retrieved assets
                     let items = [];
-
-                    $.each( data, function( key, val ) {
+                    $.each( videos, function( key, val ) {
                         valueOfVideo = val;
                         items.push( "<hr/>");
                         items.push("<div>")
@@ -91,8 +94,12 @@
                         "class": "my-new-list",
                         html: items.join( "" )
                     }).appendTo( "#VideoList" );
-                });
-            });
+                } catch (error) {
+                    alert("No videos exist in the database, please try again later.")
+                }
+            }
+        });
+
             // this function will update the like count in the database for the video
             function postLike() {
                 if(valueOfVideo != null) {
@@ -113,8 +120,6 @@
                             comment: "comment",
                             like: likeToText}),
                         cache: false,
-                        // crossDomain: true,
-                        // headers: {  'Access-Control-Allow-Origin': '*' },
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         processData: false,
